@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+trip_management.access_vehicle_trip,access_vehicle_trip,trip_management.model_vehicle_trip,base.group_user,1,1,1,1
+trip_management.access_vehicle_trip_line,access_vehicle_trip_line,trip_management.model_vehicle_trip_line,base.group_user,1,1,1,1
