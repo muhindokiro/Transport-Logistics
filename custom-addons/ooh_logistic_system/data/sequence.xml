@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="new_oppotunity_sequence" model="ir.sequence">
+            <field name="name">Opportunity Sequnce</field>
+            <field name="code">open.file</field>
+            <field name="prefix">RTC/</field>
+            <field name="suffix">/%(month)s/%(y)s</field>
+            <field name="padding">4</field>
+            <field name="implementation">no_gap</field>
+            <field name="company_id" eval="False"/>
+        </record>
+     </data>
+</odoo>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-<menuitem id="menu_trip_management_module" name="Trip Management" web_icon="trip_management,static/src/img/logo.jpg"/>
-<menuitem id="view_vehicle_trips" name="Trip Management" parent="menu_trip_management_module"  action="trip_management.action_view_vehicle_trip" sequence="2"/>
-<menuitem id="trip_config_menu" name="Configuration" parent="menu_trip_management_module" sequence="3"/>
-</odoo>

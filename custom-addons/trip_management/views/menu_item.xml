@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<menuitem
+        id="view_vehicle_trips"
+        name="Trip Management"
+        parent="ooh_logistic_system.menu_logistic_management_module"
+        action="trip_management.action_view_vehicle_trip"
+        sequence="5"/>
+</odoo>

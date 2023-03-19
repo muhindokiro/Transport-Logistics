@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_logistic_management_module" 
+        name="LOGISTIC"
+        web_icon="ooh_logistic_system,static/icon.png" 
+        groups="ooh_logistic_system.logistics_manager_admin" 
+        />
+    <menuitem id="view_home_account" 
+        name="LOGISTIC" 
+        parent="menu_logistic_management_module"
+        action="ooh_logistic_system.action_new_file_view" 
+        sequence="0" />
+
+    <menuitem id="view_file_documents" 
+        name="Documents" 
+        parent="menu_logistic_management_module"
+        action="ooh_logistic_system.action_new_file_documents_view" 
+        sequence="1" />
+</odoo>

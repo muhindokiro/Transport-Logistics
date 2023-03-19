@@ -6,9 +6,10 @@ class VehicleTrip(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['partner_id'] = self.env['ir.sequence'].next_by_code('vehicle.trip')
-        return super(VehicleTrip, self).create(vals)
-
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('vehicle.trip') or _('New')
+        res = super(VehicleTrip, self).create(vals)
+        return res
     @api.depends('trip_lines')
     def get_total(self):
         total = 0
@@ -28,10 +29,11 @@ class VehicleTrip(models.Model):
     # name=fields.Char(readonly=True) 
     departure_date = fields.Date(string="Departure Date")
     return_date = fields.Date(string="Return Date")
-    trip_ref = fields.Char(string='Trip Reference', required=1)
+    name = fields.Char(string='Trip Reference', readonly=True)
     is_internal = fields.Boolean("Internal Transport", tracking=True)
+    related_file=fields.Many2one("open.file",string="Related File")
     is_external = fields.Boolean("External Transport", tracking=True)
-    partner_id = fields.Many2one('res.partner',string="Client")
+    partner_id = fields.Many2one('res.partner',string="Client",related="related_file.customer_id")
     total_cost = fields.Float(compute='get_total', string='Total', store=1)
     trip_lines = fields.One2many('vehicle.trip.line','trip_lines') 
     state = fields.Selection([

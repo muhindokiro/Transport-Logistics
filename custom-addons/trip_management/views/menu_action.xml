@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record model="ir.actions.act_window" id="action_view_vehicle_trip">
+            <field name="name">Trip Management</field>
+            <field name="res_model">vehicle.trip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Transport
+                </p>
+            </field>
+        </record>
+
+</odoo>
