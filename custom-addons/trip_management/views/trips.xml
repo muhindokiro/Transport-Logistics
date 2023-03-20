@@ -37,18 +37,28 @@
                                 <field name="return_date" required="1"/>
                             </group>
                             <group>
-                                <field name="is_internal" required="1" />
-                                <field name="is_external" required="1" />
+                                <field name="type" required="1" />
+                                
+                                <!-- External Transport Details -->
+                                <field name="external_driver" required="1" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+                                <field name="external_truck" required="1" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+                                <field name="external_turnboy" required="1" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+
+                                <!-- External Transport Details -->
+                                <field name="internal_driver" required="1" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+                                <field name="internal_truck" required="1" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+                                <field name="internal_turnboy" required="1" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+
                             </group>
                         </group>
                         <notebook>
-                            <page string="Vehicle Transport">
+                            <page string="Transport Expense" attrs="{'invisible': [('type', '!=', 'internal')]}">
                                 <field name="trip_lines" attrs="{'readonly': [('state','!=','Draft')]}">
                                     <tree string="Vehicle Trip Lines" editable="bottom">
-                                        <field name="vehicle"/>
-                                        <field name="vehicle_plate"/>
-                                        <field name="driver_name"/>
-                                        <field name="driver_contact"/>
+                                        <field name="service_type"/>
+                                        <field name="description"/>
+                                        <field name="vendor"/>
+                                        <field name="cost"/>
                                         <field name="driver_license"/>
                                     </tree>
                                 </field>
