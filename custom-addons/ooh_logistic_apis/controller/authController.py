@@ -316,7 +316,7 @@ class JwtController(http.Controller):
                 "mobile":data['mobile'],
                 "name":data['name'],
                 "log_user_id":verrification['id'],
-                "company_id":verrification['company_id']
+                "company_id":verrification['company_id'][0]
             })
             if users:
                 users._prepare_otp_email_values()
