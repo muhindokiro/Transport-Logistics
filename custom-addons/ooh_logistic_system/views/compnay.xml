@@ -31,7 +31,7 @@
                             <field name="passwd" widget="password"/>
                         </group>
                         <group>
-                            <!-- <field name="log_user_id" /> -->
+                            <field name="log_user_id" />
                             <field name="mobile" />
                             <field name="otp" widget="password"/>
                     </group>
