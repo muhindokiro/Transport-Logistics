@@ -23,6 +23,17 @@ class OpenFile(models.Model):
             'context': "{'create': False}"
         }
 
+    def get_associated_trips(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Trips',
+            'view_mode': 'tree',
+            'res_model': 'vehicle.trip',
+            'domain': [('related_file.id', '=', self.id)],
+            'context': "{'create': False}"
+        }
+
     def compute_count(self):
         unpaid = 0.00
         invoices = self.env['account.move'].search([('file_ref', '=', self.name)])
@@ -56,7 +67,6 @@ class OpenFile(models.Model):
     arr_date = fields.Date(string="Arrival Date", default=datetime.now(), tracking=True)
     dep_date = fields.Date(string="Departure Date", default=datetime.now(), tracking=True)
     customer_id = fields.Many2one('res.partner', string="Client", tracking=True)
-    user_id = fields.Many2one('res.users', default=lambda self: self.env.user, readonly=True)
     journal_id = fields.Many2one('account.journal', string="Journal", required=True)
     country_id = fields.Many2one('res.country', string="Destination Country", related="customer_id.country_id")
     return_date = fields.Date(string="Container Return Date", default=datetime.now(), tracking=True)
@@ -65,6 +75,8 @@ class OpenFile(models.Model):
     invoice_payment_term_id = fields.Many2one('account.payment.term')
     account_total = fields.Float(string="Total Amount", tracking=True, compute='calculate_account_blc')
     invoice_count = fields.Integer(compute='compute_count')
+    company_id=fields.Many2one('res.company',string="Compnay")
+    user_id=fields.Many2one('logistic.users',string="Created By")
 
     def create_invoice(self):
         inv_lines = []

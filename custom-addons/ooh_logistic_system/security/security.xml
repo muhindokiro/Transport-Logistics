@@ -2,13 +2,13 @@
 <odoo>
 
     <record model="ir.module.category" id="main_logistics_group">
-        <field name="name">Logistics Administrator</field>
+        <field name="name">Logistics </field>
         <field name="description">Logistics</field>
         <field name="sequence">20</field>
         </record>
     
         <record id="logistics_manager_admin" model="res.groups">
-            <field name="name">Logistics Administrator</field>
+            <field name="name">Administrator</field>
             <field name="category_id" ref="main_logistics_group"/>
         </record>
 </odoo>

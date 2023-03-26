@@ -3,9 +3,9 @@
     'summary': """This module for home banking""",
     'version': '15.0.1.0.0',
     'description': """This module will add a record to store student details""",
-    'author': '@The-Kadweka',
+    'author': 'DevzKona',
     'category': 'Tools',
-    'depends': ['base','contacts','account','sale'],
+    'depends': ['base', 'contacts', 'account', 'sale'],
     'license': 'AGPL-3',
     'data': [
         'security/security.xml',
@@ -14,14 +14,15 @@
         'views/menu_actions.xml',
         'views/menu_items.xml',
         'views/file.xml',
-        'views/documents.xml'
-        ],
+        'views/documents.xml',
+        "views/compnay.xml"
+    ],
     'demo': [],
     'assets': {
-    'web.assets_backend': [
-        'ooh_logistic_system/static/src/scss/styles.css',
-    ],
- },
+        'web.assets_backend': [
+            'ooh_logistic_system/static/src/scss/styles.css',
+        ],
+    },
     'installable': True,
     'auto_install': False,
 }
