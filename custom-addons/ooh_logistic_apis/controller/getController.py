@@ -185,6 +185,8 @@ class ReadValues(http.Controller):
                 "partner_id": x.partner_id.name,
                 "departure_date": x.departure_date,
                 "return_date": x.return_date,
+                "driver":x.internal_driver.name if x.type == "internal" else x.external_driver,
+                "truck":x.internal_truck.name if x.type == "internal" else x.external_truck,
                 "type": x.type,
                 'id': x.id
             }) for x in files]
