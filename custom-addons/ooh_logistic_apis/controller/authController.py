@@ -316,7 +316,6 @@ class JwtController(http.Controller):
                 "mobile":data['mobile'],
                 "name":data['name'],
                 "user_id":verrification['id'],
-                "user_id":verrification['id'],
                 "company_id":verrification['company_id']
             })
             if users:
