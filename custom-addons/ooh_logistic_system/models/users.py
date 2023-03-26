@@ -36,7 +36,7 @@ class LogisticUsers(models.Model):
     passwd = fields.Char(string="partner password",readonly=True)
     name = fields.Char(string="Name")
     email = fields.Char(string="Email")
-    company_id=fields.Many2one('res.company',string="Compnay",related="log_user_id.company_id")
+    company_id=fields.Many2one('res.company',string="Compnay")
     log_user_id=fields.Many2one('logistic.users',string="Created By")
     mobile = fields.Char(string="Mobile")
     access_token_ids = fields.One2many('jwt_provider.access_token', 'user_id', string='Access Tokens' )

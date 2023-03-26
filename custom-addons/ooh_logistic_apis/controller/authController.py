@@ -300,7 +300,8 @@ class JwtController(http.Controller):
             return response
         verrification = verrifyAuth.validator.verify_token(token)
         if verrification['status']:
-            if request.env["logistic.users"].sudo().search([("email", "=", email)]):
+            user =request.env["logistic.users"].sudo().search([("email", "=", email)])
+            if user:
                 response = {
                     'code': 422,
                     'message': 'Email address already existed'
@@ -315,8 +316,8 @@ class JwtController(http.Controller):
                 "email":data['email'],
                 "mobile":data['mobile'],
                 "name":data['name'],
-                "log_user_id":verrification['id'],
-                "company_id":verrification['company_id'][0]
+                "log_user_id":user.id,
+                "company_id":user.company_id.id
             })
             if users:
                 users._prepare_otp_email_values()
@@ -326,7 +327,7 @@ class JwtController(http.Controller):
                         'name': users.name,
                         'email': users.email,
                         'mobile': users.mobile,
-                        "company_id": users.company_id,
+                        "company_id": user.company_id.name,
                     }
                 }
             return response
