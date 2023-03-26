@@ -3,6 +3,8 @@ from odoo import models, fields, api,_
 
 class VehicleTrip(models.Model):
     _name = 'vehicle.trip'
+    _description = "The trip management"
+    _inherit = ["mail.thread", 'mail.activity.mixin']
 
     @api.model
     def create(self, vals):
@@ -36,7 +38,7 @@ class VehicleTrip(models.Model):
     related_file=fields.Many2one("open.file",string="Related File")
     partner_id = fields.Many2one('res.partner',string="Client",related="related_file.customer_id")
     total_cost = fields.Float(compute='get_total', string='Total', store=1)
-    trip_lines = fields.One2many('vehicle.trip.line','trip_lines') 
+    trip_lines = fields.One2many('fleet.vehicle.log.services','trip_lines') 
     state = fields.Selection([
         ('Draft', 'Draft'),
         ('Confirmed', 'Confirmed'),
@@ -47,23 +49,19 @@ class VehicleTrip(models.Model):
     ], default='Draft')
 
     # External Transport Details
-    external_driver = fields.Char(string='Driver', required=1)
-    external_truck = fields.Char(string='Vehicle', required=1)
-    external_turnboy = fields.Char(string='Turnboy', required=1)
+    external_driver = fields.Char(string='Driver Name')
+    external_truck = fields.Char(string='Vehicle Plate No.')
+    external_turnboy = fields.Char(string='Turnboy Name')
 
     # Internal Transport Details
-    internal_driver = fields.Many2one("res.partner", string='Driver', required=1)
-    internal_truck = fields.Many2one("fleet.vehicle", string='Vehicle', required=1)
-    internal_turnboy = fields.Many2one("res.partner", string='Turnboy', required=1)
+    internal_driver = fields.Many2one("res.partner", string='Driver Name')
+    internal_truck = fields.Many2one("fleet.vehicle", string='Vehicle Plate No.')
+    internal_turnboy = fields.Many2one("res.partner", string='Turnboy Name')
     
 
 
 class VehicleTripLine(models.Model):
-    _name = 'vehicle.trip.line'
+    _inherit = 'fleet.vehicle.log.services'
+    _description = "The trip services management"
 
-    service_type = fields.Many2one("fleet.service.type",string='Service', required=1)
-    description = fields.Char(string='Description', required=1)
-    vendor = fields.Many2one("res.partner",string='Vendor', required=1)
-    cost = fields.Float(string='Cost', required=1)
-    driver_license = fields.Float(string='License No.', required=1)
     trip_lines = fields.Many2one('vehicle.trip',string="Trip Lines") 
