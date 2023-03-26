@@ -33,13 +33,10 @@ class LogisticUsers(models.Model):
     _description = "Model for storing logistic users"
     _inherit = ["mail.thread", 'mail.activity.mixin']
 
-    def _get_user_company(self):
-        if self.log_user_id:
-            self.company_id = self.log_user_id.company_id.id
     passwd = fields.Char(string="partner password",readonly=True)
     name = fields.Char(string="Name")
     email = fields.Char(string="Email")
-    company_id=fields.Many2one('res.company',string="Compnay",compute="_get_user_company")
+    company_id=fields.Many2one('res.company',string="Compnay",related="log_user_id.company_id")
     log_user_id=fields.Many2one('logistic.users',string="Created By")
     mobile = fields.Char(string="Mobile")
     access_token_ids = fields.One2many('jwt_provider.access_token', 'user_id', string='Access Tokens' )
