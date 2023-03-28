@@ -181,6 +181,7 @@ class JwtController(http.Controller):
                     'email': user.email,
                     'user_id': user.id,
                     'company_id': user.company_id.id,
+                    'company_name': user.company_id.name,
                     'token_type': 'Bearer',
                     'access_token': token,
                     'code': 200

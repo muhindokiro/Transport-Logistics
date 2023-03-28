@@ -50,7 +50,7 @@ class ReadValues(http.Controller):
             obj = request.env["account.account"]
             items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
             accounts = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
-            [values.append({"name": x.name, "type": x.user_type_id,
+            [values.append({"name": x.name, "type": x.user_type_id.name,
                            'id': x.id, "code": x.code}) for x in accounts]
             return {
                 "code": 200,
@@ -529,9 +529,7 @@ class ReadValues(http.Controller):
                 [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name,
-                # "type_id": x.type_id.name,
-                "country_id": x.country_id.name,
-                "scheduled_pay": x.scheduled_pay,
+                "code": x.code,
                 'id': x.id
             }) for x in structure]
             return {
