@@ -211,7 +211,7 @@ class JwtController(http.Controller):
                 'message': 'Email address cannot be empty'
             }
             return response
-        users = request.env['logistic.users'].sudo().search([('login', '=', email)])
+        users = request.env['logistic.users'].sudo().search([('email', '=', email)])
         if not users:
             response = {
                 'code': 400,
@@ -219,16 +219,14 @@ class JwtController(http.Controller):
             }
             return response
         if users:
-            for i in range(4):
-                OTP += digits[math.floor(random.random() * 10)]
-            users.sudo().write({'otp': OTP, 'when_sent': today})
-            self._prepare_otp_email_values(users)
-        return {
-            'code': 200,
-            'status': 'success',
-            "email": users.login,
-            'message': 'A code was Sent to your Email'
-        }
+            users._prepare_otp_email_values()
+            if users.otp:
+                return {
+                    'code': 200,
+                    'status': 'success',
+                    "email": users.email,
+                    'message': 'A code was Sent to your Email'
+                }
 
     @http.route('/set_password', type='json', auth='public', cors='*', method=['POST'])
     def set_new_password(self, **kw):
@@ -273,6 +271,27 @@ class JwtController(http.Controller):
                     'message': 'The Code has expired'
                 }
 
+    @http.route('/logout', type='json', auth='public', cors='*', method=['POST'])
+    def logout(self, **kw):
+        data = json.loads(request.httprequest.data)
+        token = data['token']
+        data.pop('token', None)
+        result = verrifyAuth.validator.verify_token(token)
+        _logger.error(result)
+        _logger.error("TESTING THE ")
+        if not result['status']:
+            response = {
+                'code': 400,
+                'message': 'Logout Failed'
+            }
+            return response
+        logout = request.env['jwt_provider.access_token'].sudo().search([('token', '=', token)])
+        logout.sudo().unlink()
+        response = {
+            'code': 200,
+            'message': 'Logout'
+        }
+        return response
     @http.route('/register', type='json', auth='public', cors='*', method=['POST'])
     def register(self, **kw):
         data = json.loads(request.httprequest.data)
@@ -300,8 +319,7 @@ class JwtController(http.Controller):
             return response
         verrification = verrifyAuth.validator.verify_token(token)
         if verrification['status']:
-            user =request.env["logistic.users"].sudo().search([("email", "=", email)])
-            if user:
+            if request.env["logistic.users"].sudo().search([("email", "=", email)]):
                 response = {
                     'code': 422,
                     'message': 'Email address already existed'
@@ -316,8 +334,8 @@ class JwtController(http.Controller):
                 "email":data['email'],
                 "mobile":data['mobile'],
                 "name":data['name'],
-                "log_user_id":user.id,
-                "company_id":user.company_id.id
+                "user_id":verrification['id'],
+                "company_id":verrification['company_id']
             })
             if users:
                 users._prepare_otp_email_values()
@@ -327,7 +345,7 @@ class JwtController(http.Controller):
                         'name': users.name,
                         'email': users.email,
                         'mobile': users.mobile,
-                        "company_id": user.company_id.name,
+                        "company_id": users.company_id,
                     }
                 }
             return response

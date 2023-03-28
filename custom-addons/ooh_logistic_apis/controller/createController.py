@@ -64,21 +64,25 @@ class ModelName(http.Controller):
     #             "status":"Failed",
     #             "Message":"NOT AUTHORISED!"
     #         }
-    # """"ENDPOINT TO ALLOW CREATIONS OF A TRIPS FOR THE FILE"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
+    """"ENDPOINT TO VERRIFY LEGITIMATE OF ACCESS TOKEN ON LOCAL STORAGE"""
+    @http.route('/validate_type_token', type='json', auth='public', cors='*', method=['POST'])
+    def verrfiy_token(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            return {
+                "code":200,
+                "status":"fine",
+                "Message":"EVERYTHING SEEMS FINE!"
+            }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"THERE IS SUSPICIOUS ATTEMPTS TO ACCESS THE SYSTEM!!!!!!!!!!!!1"
+            }
 
 
     # """ENDPOINT TO ALLOW CREATION OF A NEW CUSTOMER"""
@@ -125,7 +129,8 @@ class ModelName(http.Controller):
                 "name":data['name'],
                 'type':data['type'],
                 'code':data['code'],
-                'user_id':verrification['user_id'][0]
+                'user_id':verrification['user_id'][0],
+                'company_id':verrification['company_id'][0]
             })
             if journal:
                  return {
@@ -161,7 +166,8 @@ class ModelName(http.Controller):
             department = request.env["hr.department"].sudo().create({
                 "name":data['name'],
                 'manager_id':data['manager_id'],
-                'log_user_id':verrification['id']
+                'log_user_id':verrification['id'],
+                'company_id':verrification['company_id'][0]
             })
             if department:
                  return {
@@ -191,7 +197,8 @@ class ModelName(http.Controller):
                 }
             category = request.env["product.category"].sudo().create({
                 "name":data['name'],
-                'log_user_id':verrification['id']
+                'log_user_id':verrification['id'],
+                'company_id':verrification['company_id'][0]
             })
             if category:
                  return {
@@ -238,8 +245,9 @@ class ModelName(http.Controller):
                 "name":data['name'],
                 "list_price":data['list_price'],
                 "categ_id":data['categ_id'],
-                 "detailed_type":data['detailed_type'],
-                'log_user_id':verrification['id']
+                "detailed_type":data['detailed_type'],
+                'log_user_id':verrification['id'],
+                'company_id':verrification['company_id'][0]
             })
             if category:
                  return {
@@ -253,7 +261,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-    
+
     """ENDPOINT TO ALLOW CREATION OF TRIPS"""
     @http.route('/new_trip', type='json', auth='public', cors='*', method=['POST'])
     def create_trip(self, **kw):
@@ -368,7 +376,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-    
+
     """ENDPOINT TO ALLOW CREATION OF CUSTOMERS"""
     @http.route('/new_customer', type='json', auth='public', cors='*', method=['POST'])
     def new_customer(self, **kw):
@@ -421,7 +429,9 @@ class ModelName(http.Controller):
                 'email':data['email'],
                 'property_account_receivable_id':data['property_account_receivable_id'],
                 'property_account_payable_id':data['property_account_payable_id'],
-                'log_user_id':verrification['id']
+                'log_user_id':verrification['id'],
+                'company_id':verrification['company_id'][0]
+
             })
             if file:
                  return {
@@ -435,7 +445,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-    
+
     """ENDPOINT TO ALLOW CREATION OF FILE OPENNING"""
     @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
     def create_file(self, **kw):

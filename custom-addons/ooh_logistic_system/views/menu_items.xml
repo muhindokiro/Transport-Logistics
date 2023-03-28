@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_logistic_management_module" 
+    <menuitem id="menu_logistic_management_module"
         name="Logistic"
-        web_icon="ooh_logistic_system,static/icon.png" 
-        groups="ooh_logistic_system.logistics_manager_admin" 
+        web_icon="ooh_logistic_system,static/icon.png"
         />
-    <menuitem id="view_home_account" 
+    <menuitem id="view_home_account"
         name="Logistic"
         parent="menu_logistic_management_module"
-        action="ooh_logistic_system.action_new_file_view" 
+        action="ooh_logistic_system.action_new_file_view"
         sequence="0" />
 
-    <menuitem id="view_file_documents" 
-        name="Documents" 
+    <menuitem id="view_file_documents"
+        name="Documents"
         parent="menu_logistic_management_module"
-        action="ooh_logistic_system.action_new_file_documents_view" 
+        action="ooh_logistic_system.action_new_file_documents_view"
         sequence="1" />
-    <menuitem id="view_users_manegment" 
-        name="System Users" 
+    <menuitem id="view_users_manegment"
+        name="System Users"
         parent="menu_logistic_management_module"
-        action="ooh_logistic_system.action_new_system_users_view" 
+        action="ooh_logistic_system.action_new_system_users_view"
         sequence="100" />
 </odoo>
+<!-- groups="ooh_logistic_system.logistics_manager_admin"  -->
