@@ -23,7 +23,7 @@ class Validator:
 
         return True
     def verify_token(self, token):
-    
+   
         # try:
         result = {
             'status': False,

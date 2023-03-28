@@ -91,11 +91,11 @@ class ModelName(http.Controller):
     #             "status":"Failed",
     #             "Message":"NOT AUTHORISED!"
     #         }
-
-
-    """ENDPOINT TO ALLOW CREATION OF JOURNALS"""
-    @http.route('/create_journal', type='json', auth='public', cors='*', method=['POST'])
-    def new_journal(self, **kw):
+    
+    # ACCOUNTING
+    """ENDPOINT TO ALLOW CHARTS OF ACCOUNTS"""
+    @http.route('/create_chart', type='json', auth='public', cors='*', method=['POST'])
+    def new_charts(self, **kw):
         data = json.loads(request.httprequest.data)
         """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
@@ -106,28 +106,59 @@ class ModelName(http.Controller):
                     "code":400,
                     "message":"Code cannot be empty"
                 }
-            if  not data['type']:
-                    return {
-                        "code":400,
-                        "message":"Journal Type cannot be empty"
-                    }
             if  not data['name']:
                     return {
                         "code":400,
                         "message":"Name cannot be empty"
                     }
-            journal = request.env["account.journal"].sudo().create({
+            if  not data['user_type_id']:
+                    return {
+                        "code":400,
+                        "message":"Type cannot be empty"
+                    }
+            if  not data['currency_id']:
+                    return {
+                        "code":400,
+                        "message":"Account Currency cannot be empty"
+                    }
+            if  not data['tax_ids']:
+                    return {
+                        "code":400,
+                        "message":"Default Taxes cannot be empty"
+                    }
+            if  not data['deprecated']:
+                    return {
+                        "code":400,
+                        "message":"Deprecated cannot be empty"
+                    }
+            if  not data['tag_ids']:
+                    return {
+                        "code":400,
+                        "message":"Tags cannot be empty"
+                    }
+            if  not data['allowed_journal_ids']:
+                    return {
+                        "code":400,
+                        "message":"Allowed Journal cannot be empty"
+                    }
+
+            charts = request.env["account.account"].sudo().create({
+                 "code":data['code'],
                  "name":data['name'],
-                 'type':data['type'],
-                 'code':data['code'],
+                 'user_type_id':data['user_type_id'],
+                 'currency_id':data['currency_id'],
+                 "tax_ids":data['tax_ids'],
+                 'deprecated':data['deprecated'],
+                 'tag_ids':data['tag_ids'],
+                 'allowed_journal_ids':data['allowed_journal_ids'],
                  'company_id':verrification['company_id'][0],
-                 'created_by':verrification['user_id'][0]
+                #  'created_by':verrification['user_id'][0]
             })
-            if journal:
+            if charts:
                  return {
                       "code":200,
                       "status":"Success",
-                      "message":"Created Journal"
+                      "message":"Created Chart of Account"
                  }
         else:
             return {
@@ -137,116 +168,4 @@ class ModelName(http.Controller):
             }
 
 
-    # """ENDPOINT TO ALLOW CREATION OF CHARTS OF ACCOUNT"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-
-    # """ENDPOINT TO ALLOW CREATION OF TAXES"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-
-    # """ENDPOINT TO ALLOW CREATION OF EMPLOYEES"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
     
-    #     """ENDPOINT TO ALLOW CREATION OF JOB TITLE"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-
-
-    # """ENDPOINT TO ALLOW CREATION OF DEPARTMENTS"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-    
-    #     """ENDPOINT TO ALLOW CREATION OF TRIP LINES"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-    
-    #     """ENDPOINT TO ALLOW CREATION OF FILE RELATED DOCUMENTS"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
