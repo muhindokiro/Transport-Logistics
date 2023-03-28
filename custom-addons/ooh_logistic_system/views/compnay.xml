@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<data>
-    <record id="ooh_company_form_inherit_view_center" model="ir.ui.view">
-        <field name="name">res.company.inherit.form</field>
-        <field name="model">res.company</field>
-        <field name="inherit_id" ref="base.view_company_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//form['header']" position="inside">
-                <field name="state" widget="statusbar" readonly="1"/>
-                <button name="create_admin" states="draft" string="Create Admin User" type="object"
-                class="oe_highlight" />
-              </xpath>
-        </field>
-    </record>
-    <record id="view_logistic_users_form" model="ir.ui.view">
-        <field name="name">logistic.users.form</field>
-        <field name="model">logistic.users</field>
-        <field name="priority" eval="8" />
-        <field name="arch" type="xml">
-            <form string="Logistic Users">
-                <header>
-                    <field name="state" widget="statusbar" statusbar_visible="active,archived"/>
-                </header>
-                <sheet>
-                    <group>
+    <data>
+        <record id="ooh_company_form_inherit_view_center" model="ir.ui.view">
+            <field name="name">res.company.inherit.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form['header']" position="inside">
+                    <field name="state" widget="statusbar" readonly="1"/>
+                    <button name="create_admin" states="draft" string="Create Admin User" type="object" class="oe_highlight" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_logistic_users_form" model="ir.ui.view">
+            <field name="name">logistic.users.form</field>
+            <field name="model">logistic.users</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Logistic Users">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="active,archived"/>
+                    </header>
+                    <sheet>
                         <group>
-                            <field name="name" />
-                            <field name="email" />
-                            <field name="company_id" />
-                            <field name="passwd" widget="password"/>
+                            <group>
+                                <field name="name" />
+                                <field name="email" />
+                                <field name="company_id" />
+                                <field name="passwd" widget="password"/>
+                            </group>
+                            <group>
+                                <!-- <field name="log_user_id" /> -->
+                                <field name="mobile" />
+                                <field name="otp" widget="password"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="user_id" />
-                            <field name="mobile" />
-                            <field name="otp" widget="password"/>
-                    </group>
-                </group>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
-            </form>
-        </field>
-    </record>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
 
-    <record id="view_system_users_tree" model="ir.ui.view">
-        <field name="name">logistic.users.tree</field>
-        <field name="model">logistic.users</field>
-        <field name="arch" type="xml">
-            <tree string="System User">
-                <field name="name"/>
-                <field name="email"/>
-                <field name="company_id"/>
-                <field name="mobile"/>
-                <field name="otp"/>
-                <field name="state"/>
-            </tree>
-        </field>
-    </record>
-</data>
+        <record id="view_system_users_tree" model="ir.ui.view">
+            <field name="name">logistic.users.tree</field>
+            <field name="model">logistic.users</field>
+            <field name="arch" type="xml">
+                <tree string="System User">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="company_id"/>
+                    <field name="mobile"/>
+                    <field name="otp"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+    </data>
 </odoo>

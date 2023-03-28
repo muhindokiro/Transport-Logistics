@@ -75,8 +75,8 @@ class OpenFile(models.Model):
     invoice_payment_term_id = fields.Many2one('account.payment.term')
     account_total = fields.Float(string="Total Amount", tracking=True, compute='calculate_account_blc')
     invoice_count = fields.Integer(compute='compute_count')
-    company_id=fields.Many2one('res.company',string="Compnay")
-    user_id=fields.Many2one('logistic.users',string="Created By")
+    company_id=fields.Many2one('res.company',string="Company",related="log_user_id.company_id",readonly=True)
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
 
     def create_invoice(self):
         inv_lines = []
@@ -108,7 +108,8 @@ class OpenFileDocument(models.Model):
     document = fields.Binary(string="Document")
     assoc_file = fields.Many2one('open.file')
     file_ref = fields.Char(related="assoc_file.name", readonly=True, string="Related File", tracking=True)
-
+    company_id=fields.Many2one('res.company',string="Company",related="log_user_id.company_id",readonly=True)
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
 
 class OpenFileLine(models.Model):
     _name = 'open.file.line'
@@ -120,10 +121,83 @@ class OpenFileLine(models.Model):
     account_id = fields.Many2one('account.account', string="Account", required=True)
     amount = fields.Float(string="Price", related="product_id.list_price")
     assoc_file_line = fields.Many2one('open.file', tracking=True)
-
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+    company_id=fields.Many2one('res.company',string="Company",related="log_user_id.company_id",readonly=True)
 
 class AccountMove(models.Model):
     _inherit = "account.move"
     _description = "Relating invoice to the file for easy tracking"
 
     file_ref = fields.Char(string="File ref", readonly=True)
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+
+class Account(models.Model):
+    _inherit = "account.account"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+
+# class AccountTax(models.Model):
+#     _inherit = "account.tax"
+#     _description = "Tracking who created the record above"
+
+#     log_user_id=fields.Many2one('logistic.users',string="Created By")
+#     company_id=fields.Many2one('res.company',string="Company",related="log_user_id.company_id")
+
+class HrDepartnent(models.Model):
+    _inherit = "hr.department"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+
+class HrEmployees(models.Model):
+    _inherit = "hr.employee"
+    _description = "Tracking who created the record above"
+
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+    # company_id=fields.Many2one('res.company',string="Company",related="log_user_id.company_id",readonly=True)
+
+class HrStructure(models.Model):
+    _inherit = "hr.payroll.structure"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+
+class FleetVehicle(models.Model):
+    _inherit = "fleet.vehicle"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+class ProductCategory(models.Model):
+    _inherit = "product.category"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+    company_id=fields.Many2one('res.company',string="Company",readonly=True)
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+class FleetVehicleBrand(models.Model):
+    _inherit = "fleet.vehicle.model.brand"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+class FleetVehicleModel(models.Model):
+    _inherit = "fleet.vehicle.model"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By",required=True)
