@@ -539,4 +539,54 @@ class ModelName(http.Controller):
                 "Message":"NOT AUTHORISED!"
             }
             
-   
+    # EMPLOYEE
+    """ENDPOINT TO CREATE EMPLOYEE"""
+    @http.route('/create_employee', type='json', auth='public', cors='*', method=['POST'])
+    def new_employee(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+            if  not data['mobile_phone']:
+                return {
+                    "code":400,
+                    "message":"Mobile cannot be empty"
+                }
+            if  not data['work_email']:
+                return {
+                    "code":400,
+                    "message":"Email cannot be empty"
+                }
+            if  not data['department_id']:
+                return {
+                    "code":400,
+                    "message":"Department cannot be empty"
+                }
+
+            employee = request.env["hr.employee"].sudo().create({
+                 "name":data['name'],
+                 "mobile_phone":data['mobile_phone'],
+                 "work_email":data['work_email'],
+                 "department_id":data['department_id'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if employee:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Employee"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+
