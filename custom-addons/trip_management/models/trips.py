@@ -38,9 +38,7 @@ class VehicleTrip(models.Model):
     related_file=fields.Many2one("open.file",string="Related File")
     partner_id = fields.Many2one('res.partner',string="Client",related="related_file.customer_id")
     total_cost = fields.Float(compute='get_total', string='Total', store=1)
-    trip_lines = fields.One2many('fleet.vehicle.log.services','trip_lines')
-    log_user_id=fields.Many2one('logistic.users',string="Created By")
-    company_id=fields.Many2one('res.company',string="Compnay",related="log_user_id.company_id")
+    trip_lines = fields.One2many('fleet.vehicle.log.services','trip_lines') 
     state = fields.Selection([
         ('Draft', 'Draft'),
         ('Confirmed', 'Confirmed'),
@@ -66,5 +64,4 @@ class VehicleTripLine(models.Model):
     _inherit = 'fleet.vehicle.log.services'
     _description = "The trip services management"
 
-    trip_lines = fields.Many2one('vehicle.trip',string="Trip Lines")
-    log_user_id=fields.Many2one('logistic.users',string="Created By",related="trip_lines.log_user_id")
+    trip_lines = fields.Many2one('vehicle.trip',string="Trip Lines") 

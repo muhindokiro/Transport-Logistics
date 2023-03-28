@@ -1,6 +1,7 @@
 from odoo.http import request
 import logging
 import jwt
+
 _logger = logging.getLogger(__name__)
 
 regex = r"^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
@@ -22,7 +23,7 @@ class Validator:
 
         return True
     def verify_token(self, token):
-    
+   
         # try:
         result = {
             'status': False,

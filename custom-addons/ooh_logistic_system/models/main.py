@@ -97,6 +97,7 @@ class OpenFile(models.Model):
             self.write({"inv_ref": invoice.name})
         return True
 
+
 class OpenFileDocument(models.Model):
     _name = 'open.file.document'
     _description = "The file documents for easy tracking and management"
