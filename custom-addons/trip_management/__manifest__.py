@@ -5,7 +5,7 @@
     'description': """This module will add a record to for trip details""",
     'author': '@Muhindo-Kiro',
     'category': 'Tools',
-    'depends': ['base','hr','contacts','ooh_logistic_system'],
+    'depends': ['base','hr','contacts','ooh_logistic_system','fleet','ooh_logistic_apis'],
     'license': 'AGPL-3',
     'data': [
         'views/trips.xml',
