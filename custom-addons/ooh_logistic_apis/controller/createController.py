@@ -168,4 +168,72 @@ class ModelName(http.Controller):
             }
 
 
+    """ENDPOINT TO ALLOW CREATION OF TAXES"""
+    @http.route('/create_tax', type='json', auth='public', cors='*', method=['POST'])
+    def new_tax(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+            if  not data['type_tax_use']:
+                    return {
+                        "code":400,
+                        "message":"Tax Type cannot be empty"
+                    }
+            if  not data['amount_type']:
+                    return {
+                        "code":400,
+                        "message":"Tax Computation cannot be empty"
+                    }
+            if  not data['amount']:
+                    return {
+                        "code":400,
+                        "message":"Amount cannot be empty"
+                    }
+            # if  not data['tax_scope']:
+            #         return {
+            #             "code":400,
+            #             "message":"Tax Scope cannot be empty"
+            #         }
+            # if  not data['tax_group_id']:
+            #         return {
+            #             "code":400,
+            #             "message":"Tax Group cannot be empty"
+            #         }
+            # if  not data['country_id']:
+            #         return {
+            #             "code":400,
+            #             "message":"Country cannot be empty"
+            #         }
+
+            tax = request.env["account.tax"].sudo().create({
+                 "name":data['name'],
+                 'type_tax_use':data['type_tax_use'],
+                 'amount_type':data['amount_type'],
+                 "amount":data['amount'],
+                #  'tax_scope':data['tax_scope'],
+                #  'tax_group_id':data['tax_group_id'],
+                #  'country_id':data['country_id'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if tax:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Tax"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+
     
