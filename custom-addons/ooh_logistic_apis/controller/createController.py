@@ -236,4 +236,98 @@ class ModelName(http.Controller):
                 "Message":"NOT AUTHORISED!"
             }
 
-    
+    """ENDPOINT TO ALLOW CREATION OF JOURNALS"""
+    @http.route('/create_journal', type='json', auth='public', cors='*', method=['POST'])
+    def new_journal(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['code']:
+                return {
+                    "code":400,
+                    "message":"Code cannot be empty"
+                }
+            if  not data['type']:
+                    return {
+                        "code":400,
+                        "message":"Journal Type cannot be empty"
+                    }
+            if  not data['name']:
+                    return {
+                        "code":400,
+                        "message":"Name cannot be empty"
+                    }
+            journal = request.env["account.journal"].sudo().create({
+                 "name":data['name'],
+                 'type':data['type'],
+                 'code':data['code'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['id']
+            })
+            if journal:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Journal"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
+    """ENDPOINT TO ALLOW JOURNAL ENTRIES"""
+    @http.route('/create_journalentry', type='json', auth='public', cors='*', method=['POST'])
+    def new_journalentry(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['ref']:
+                return {
+                    "code":400,
+                    "message":"Ref cannot be empty"
+                }
+            if  not data['name']:
+                    return {
+                        "code":400,
+                        "message":"Name cannot be empty"
+                    }
+            if  not data['date']:
+                    return {
+                        "code":400,
+                        "message":"Date cannot be empty"
+                    }
+            if  not data['journal_id']:
+                    return {
+                        "code":400,
+                        "message":"Journal cannot be empty"
+                    }
+            
+
+            journal_entry = request.env["account.move"].sudo().create({
+                 "ref":data['ref'],
+                 "name":data['name'],
+                 'date':data['date'],
+                 'journal_id':data['journal_id'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if journal_entry:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Journal Entry"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
+   
