@@ -330,4 +330,213 @@ class ModelName(http.Controller):
                 "Message":"NOT AUTHORISED!"
             }
             
+    # FLEET
+    """ENDPOINT TO CREATE SERVICE"""
+    @http.route('/create_service', type='json', auth='public', cors='*', method=['POST'])
+    def new_service(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['description']:
+                return {
+                    "code":400,
+                    "message":"Description cannot be empty"
+                }
+            if  not data['vehicle_id']:
+                    return {
+                        "code":400,
+                        "message":"Vehicle cannot be empty"
+                    }
+            if  not data['service_type_id']:
+                    return {
+                        "code":400,
+                        "message":"Service Type cannot be empty"
+                    }
+            if  not data['purchaser_id']:
+                    return {
+                        "code":400,
+                        "message":"Driver cannot be empty"
+                    }
+            if  not data['date']:
+                    return {
+                        "code":400,
+                        "message":"Date cannot be empty"
+                    }
+            if  not data['vendor_id']:
+                    return {
+                        "code":400,
+                        "message":"Vendor cannot be empty"
+                    }
+            if  not data['amount']:
+                    return {
+                        "code":400,
+                        "message":"Cost cannot be empty"
+                    }
+            if  not data['odometer']:
+                    return {
+                        "code":400,
+                        "message":"Odometer Value cannot be empty"
+                    }
+            
+
+            service = request.env["fleet.vehicle.log.services"].sudo().create({
+                 "description":data['description'],
+                 "vehicle_id":data['vehicle_id'],
+                 'service_type_id':data['service_type_id'],
+                 'purchaser_id':data['purchaser_id'],
+                 'date':data['date'],
+                 'vendor_id':data['vendor_id'],
+                 'date':data['date'],
+                 'amount':data['amount'],
+                 'odometer':verrification['odometer'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if service:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Service"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
+    """ENDPOINT TO CREATE FLEET"""
+    @http.route('/create_fleet', type='json', auth='public', cors='*', method=['POST'])
+    def new_fleet(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['model_id']:
+                return {
+                    "code":400,
+                    "message":"Model cannot be empty"
+                }
+            if  not data['license_plate']:
+                    return {
+                        "code":400,
+                        "message":"License Plate cannot be empty"
+                    }
+            if  not data['driver_id']:
+                    return {
+                        "code":400,
+                        "message":"Driver cannot be empty"
+                    }
+            if  not data['next_assignation_date']:
+                    return {
+                        "code":400,
+                        "message":"Journal cannot be empty"
+                    }
+            
+
+            fleet = request.env["fleet.vehicle"].sudo().create({
+                 "model_id":data['model_id'],
+                 "license_plate":data['license_plate'],
+                 'driver_id':data['driver_id'],
+                 'next_assignation_date':data['next_assignation_date'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if fleet:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Fleet"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
+    """ENDPOINT TO CREATE MANUFACTURER"""
+    @http.route('/create_manufacturer', type='json', auth='public', cors='*', method=['POST'])
+    def new_manufacturer(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+
+            manufacturer = request.env["fleet.vehicle.model.brand"].sudo().create({
+                 "name":data['name'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if manufacturer:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Model"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
+    """ENDPOINT TO CREATE VEHICLE MODEL"""
+    @http.route('/create_model', type='json', auth='public', cors='*', method=['POST'])
+    def new_model(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+            if  not data['brand_id']:
+                return {
+                    "code":400,
+                    "message":"Manufacturer cannot be empty"
+                }
+            if  not data['vehicle_type']:
+                return {
+                    "code":400,
+                    "message":"Vehicle Type cannot be empty"
+                }
+            if  not data['category_id']:
+                return {
+                    "code":400,
+                    "message":"Category cannot be empty"
+                }
+
+            manufacturer = request.env["fleet.vehicle.model"].sudo().create({
+                 "name":data['name'],
+                 "brand_id":data['name'],
+                 "vehicle_type":data['vehicle_type'],
+                 "category_id":data['category_id'],
+                 'company_id':verrification['company_id'][0],
+                #  'created_by':verrification['user_id'][0]
+            })
+            if manufacturer:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created Manufacturer"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+            
    
