@@ -3,100 +3,13 @@ from .. import verrifyAuth
 from odoo import http
 from odoo.http import request
 
+import logging
+import string
+
+_logger = logging.getLogger(__name__)
 
 class ModelName(http.Controller):
-    # """ENDPOINT TO ALLOW CREATION OF A NEW FILE"""
-    # @http.route('/new_chart_account', type='json', auth='public', cors='*', method=['POST'])
-    # def create_chart_of_account(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         # """make sure fields are not empty"""
-    #         if not data['code']:
-    #             response = {
-    #                 'code': 422,
-    #                 'message': 'Code cannot be empty'
-    #             }
-    #             return response
-    #         if not data['name']:
-    #             response = {
-    #             'code': 422,
-    #             'message': 'Name cannot be empty'
-    #             }
-    #             return response
-    #         if not data['user_type_id']:
-    #             response = {
-    #             'code': 422,
-    #             'message': 'Type cannot be empty'
-    #             }
-    #             return response
-    #         # """verify that code does not existing in the database"""
-    #         if request.env["account.account"].sudo().search([("code", "=", data['code'])]):
-    #             response = {
-    #                 'code': 422,
-    #                 'message': 'Account Code should be unique'
-    #             }
-    #             return response
 
-    #         # """continue if the code does not exist in the database"""
-    #         account=request.env["account.account"].sudo().create({
-    #             "name":data['name'],
-    #             "code":data['code'],
-    #             "user_type_id":data['user_type_id'],
-    #             "company_id":verrification['company_id']
-    #         })
-    #         # """return the response if the action is successful"""
-    #         if account:
-    #             return {
-    #                 "code":200,
-    #                 "status":"Success",
-    #                 "message":"YOu have added a chart of account"
-    #             }
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-    """"ENDPOINT TO VERRIFY LEGITIMATE OF ACCESS TOKEN ON LOCAL STORAGE"""
-    @http.route('/validate_type_token', type='json', auth='public', cors='*', method=['POST'])
-    def verrfiy_token(self, **kw):
-        data = json.loads(request.httprequest.data)
-        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-        verrification = verrifyAuth.validator.verify_token(data['token'])
-        if verrification['status']:
-            """your code goes here"""
-            return {
-                "code":200,
-                "status":"fine",
-                "Message":"EVERYTHING SEEMS FINE!"
-            }
-        else:
-            return {
-                "code":403,
-                "status":"Failed",
-                "Message":"THERE IS SUSPICIOUS ATTEMPTS TO ACCESS THE SYSTEM!!!!!!!!!!!!1"
-            }
-
-
-    # """ENDPOINT TO ALLOW CREATION OF A NEW CUSTOMER"""
-    # @http.route('/new_file', type='json', auth='public', cors='*', method=['POST'])
-    # def create_file(self, **kw):
-    #     data = json.loads(request.httprequest.data)
-    #     """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         """your code goes here"""
-    #         pass
-    #     else:
-    #         return {
-    #             "code":403,
-    #             "status":"Failed",
-    #             "Message":"NOT AUTHORISED!"
-    #         }
-
-    # ACCOUNTING
     """ENDPOINT TO ALLOW CHARTS OF ACCOUNTS"""
     @http.route('/create_chart', type='json', auth='public', cors='*', method=['POST'])
     def new_charts(self, **kw):
@@ -120,43 +33,43 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Type cannot be empty"
                     }
-            if  not data['currency_id']:
-                    return {
-                        "code":400,
-                        "message":"Account Currency cannot be empty"
-                    }
-            if  not data['tax_ids']:
-                    return {
-                        "code":400,
-                        "message":"Default Taxes cannot be empty"
-                    }
-            if  not data['deprecated']:
-                    return {
-                        "code":400,
-                        "message":"Deprecated cannot be empty"
-                    }
-            if  not data['tag_ids']:
-                    return {
-                        "code":400,
-                        "message":"Tags cannot be empty"
-                    }
-            if  not data['allowed_journal_ids']:
-                    return {
-                        "code":400,
-                        "message":"Allowed Journal cannot be empty"
-                    }
+            # if  not data['currency_id']:
+            #         return {
+            #             "code":400,
+            #             "message":"Account Currency cannot be empty"
+            #         }
+            # if  not data['tax_ids']:
+            #         return {
+            #             "code":400,
+            #             "message":"Default Taxes cannot be empty"
+            #         }
+            # if  not data['deprecated']:
+            #         return {
+            #             "code":400,
+            #             "message":"Deprecated cannot be empty"
+            #         }
+            # if  not data['tag_ids']:
+            #         return {
+            #             "code":400,
+            #             "message":"Tags cannot be empty"
+            #         }
+            # if  not data['allowed_journal_ids']:
+            #         return {
+            #             "code":400,
+            #             "message":"Allowed Journal cannot be empty"
+            #         }
 
             charts = request.env["account.account"].sudo().create({
                  "code":data['code'],
                  "name":data['name'],
                  'user_type_id':data['user_type_id'],
-                 'currency_id':data['currency_id'],
-                 "tax_ids":data['tax_ids'],
-                 'deprecated':data['deprecated'],
-                 'tag_ids':data['tag_ids'],
-                 'allowed_journal_ids':data['allowed_journal_ids'],
+                #  'currency_id':data['currency_id'],
+                #  "tax_ids":data['tax_ids'],
+                #  'deprecated':data['deprecated'],
+                #  'tag_ids':data['tag_ids'],
+                #  'allowed_journal_ids':data['allowed_journal_ids'],
                  'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                'log_user_id':verrification['id'],
             })
             if charts:
                  return {
@@ -220,6 +133,7 @@ class ModelName(http.Controller):
                  "name":data['name'],
                  'type_tax_use':data['type_tax_use'],
                  'amount_type':data['amount_type'],
+                'tax_scope':data['tax_scope'],
                  "amount":data['amount'],
                 #  'tax_scope':data['tax_scope'],
                 #  'tax_group_id':data['tax_group_id'],
@@ -263,12 +177,17 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Name cannot be empty"
                     }
+            if request.env["account.journal"].sudo().search([("code","=",data['code'])]):
+                  return {
+                        "code":400,
+                        "message":"Journal Code should be unique"
+                    }
             journal = request.env["account.journal"].sudo().create({
                  "name":data['name'],
                  'type':data['type'],
                  'code':data['code'],
                  'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['id']
+                'log_user_id':verrification['id'],
             })
             if journal:
                  return {
@@ -282,7 +201,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     """ENDPOINT TO ALLOW JOURNAL ENTRIES"""
     @http.route('/create_journalentry', type='json', auth='public', cors='*', method=['POST'])
     def new_journalentry(self, **kw):
@@ -311,7 +230,7 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Journal cannot be empty"
                     }
-            
+
 
             journal_entry = request.env["account.move"].sudo().create({
                  "ref":data['ref'],
@@ -319,7 +238,7 @@ class ModelName(http.Controller):
                  'date':data['date'],
                  'journal_id':data['journal_id'],
                  'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                               'log_user_id':verrification['id'],
             })
             if journal_entry:
                  return {
@@ -333,7 +252,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     # FLEET
     """ENDPOINT TO CREATE SERVICE"""
     @http.route('/create_service', type='json', auth='public', cors='*', method=['POST'])
@@ -383,19 +302,19 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Odometer Value cannot be empty"
                     }
-            
+
 
             service = request.env["fleet.vehicle.log.services"].sudo().create({
-                 "description":data['description'],
-                 "vehicle_id":data['vehicle_id'],
-                 'service_type_id':data['service_type_id'],
-                 'purchaser_id':data['purchaser_id'],
-                 'date':data['date'],
-                 'vendor_id':data['vendor_id'],
-                 'date':data['date'],
-                 'amount':data['amount'],
-                 'odometer':verrification['odometer'][0],
-                #  'created_by':verrification['user_id'][0]
+                    "description":data['description'],
+                    "vehicle_id":data['vehicle_id'],
+                    'service_type_id':data['service_type_id'],
+                    'purchaser_id':data['purchaser_id'],
+                    'date':data['date'],
+                    'vendor_id':data['vendor_id'],
+                    'date':data['date'],
+                    'amount':data['amount'],
+                    'odometer':data['odometer'],
+                    'log_user_id':verrification['id'],
             })
             if service:
                  return {
@@ -409,7 +328,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     """ENDPOINT TO CREATE FLEET"""
     @http.route('/create_fleet', type='json', auth='public', cors='*', method=['POST'])
     def new_fleet(self, **kw):
@@ -428,25 +347,84 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"License Plate cannot be empty"
                     }
-            if  not data['driver_id']:
+            if  not data['net_car_value']:
                     return {
                         "code":400,
-                        "message":"Driver cannot be empty"
+                        "message":"Car Value cannot be empty"
                     }
-            if  not data['next_assignation_date']:
+            if  not data['model_year']:
                     return {
                         "code":400,
-                        "message":"Journal cannot be empty"
+                        "message":"Model Year cannot be empty"
                     }
-            
+            if  not data['odometer']:
+                    return {
+                        "code":400,
+                        "message":"Odometer cannot be empty"
+                    }
+            if  not data['transmission']:
+                    return {
+                        "code":400,
+                        "message":"Transmission cannot be empty"
+                    }
+
+            if  not data['color']:
+                    return {
+                        "code":400,
+                        "message":"Color cannot be empty"
+                    }
+            if  not data['seats']:
+                            return {
+                                "code":400,
+                                "message":"Seats cannot be empty"
+                            }
+
+
+            if  not data['doors']:
+                            return {
+                                "code":400,
+                                "message":"Doors cannot be empty"
+                            }
+
+            if  not data['horsepower']:
+                            return {
+                                "code":400,
+                                "message":"Horse Power cannot be empty"
+                            }
+
+
+            if  not data['power']:
+                            return {
+                                "code":400,
+                                "message":"Power cannot be empty"
+                            }
+
+            if  not data['fuel_type']:
+                            return {
+                                "code":400,
+                                "message":"Fuel Type cannot be empty"
+                            }
 
             fleet = request.env["fleet.vehicle"].sudo().create({
-                 "model_id":data['model_id'],
-                 "license_plate":data['license_plate'],
-                 'driver_id':data['driver_id'],
-                 'next_assignation_date':data['next_assignation_date'],
-                 'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                        "model_id":data['model_id'],
+                        "license_plate":data['license_plate'],
+                        'driver_id':data['driver_id'],
+                        # 'next_assignation_date':data['next_assignation_date'],
+                        "fuel_type":data['fuel_type'],
+                        "license_plate":data['license_plate'],
+                        'power':data['power'],
+                        'horsepower':data['horsepower'],
+                        "doors":data['doors'],
+                        "seats":data['seats'],
+                        "odometer":data['odometer'],
+                        'color':data['color'],
+                        'transmission':data['transmission'],
+                        "model_year":data['model_year'],
+                        'co2':data['co2'],
+                        'co2_standard':data['co2_standard'],
+                        'company_id':verrification['company_id'][0],
+                        'log_user_id':verrification['id'],
+
             })
             if fleet:
                  return {
@@ -460,7 +438,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     """ENDPOINT TO CREATE MANUFACTURER"""
     @http.route('/create_manufacturer', type='json', auth='public', cors='*', method=['POST'])
     def new_manufacturer(self, **kw):
@@ -478,7 +456,7 @@ class ModelName(http.Controller):
             manufacturer = request.env["fleet.vehicle.model.brand"].sudo().create({
                  "name":data['name'],
                  'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                               'log_user_id':verrification['id'],
             })
             if manufacturer:
                  return {
@@ -492,7 +470,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     """ENDPOINT TO CREATE VEHICLE MODEL"""
     @http.route('/create_model', type='json', auth='public', cors='*', method=['POST'])
     def new_model(self, **kw):
@@ -528,7 +506,8 @@ class ModelName(http.Controller):
                  "vehicle_type":data['vehicle_type'],
                  "category_id":data['category_id'],
                  'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                                'log_user_id':verrification['id'],
+
             })
             if manufacturer:
                  return {
@@ -542,7 +521,7 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
+
     # EMPLOYEE
     """ENDPOINT TO CREATE EMPLOYEE"""
     @http.route('/create_employee', type='json', auth='public', cors='*', method=['POST'])
@@ -572,14 +551,45 @@ class ModelName(http.Controller):
                     "code":400,
                     "message":"Department cannot be empty"
                 }
-
+            if  not data['manager_id']:
+                return {
+                    "code":400,
+                    "message":"Manager cannot be empty"
+                }
+            if  not data['employee_type']:
+                return {
+                    "code":400,
+                    "message":"Employee Type cannot be empty"
+                }
+            if  not data['country_id']:
+                return {
+                    "code":400,
+                    "message":"Nationality cannot be empty"
+                }
+            if  not data['identification_id'] or data['passport_id']:
+                return {
+                    "code":400,
+                    "message":"Nationality Id/Passport Number cannot be empty"
+                }
+            if  not data['passport_id']:
+                    return {
+                        "code":400,
+                        "message":"Nationality Id/Passport Number cannot be empty"
+                    }
             employee = request.env["hr.employee"].sudo().create({
-                 "name":data['name'],
-                 "mobile_phone":data['mobile_phone'],
-                 "work_email":data['work_email'],
-                 "department_id":data['department_id'],
-                 'company_id':verrification['company_id'][0],
-                #  'created_by':verrification['user_id'][0]
+                    "name":data['name'],
+                    "mobile_phone":data['mobile_phone'],
+                    "employee_type":data['employee_type'],
+                    "work_email":data['work_email'],
+                    "department_id":data['department_id'],
+                    "parent_id":data['parent_id'],
+                    "country_id":data['country_id'],
+                    "identification_id":data['identification_id'],
+                    "passport_id":data['passport_id'],
+                    "birthday":data['birthday'],
+                    # "kra_number":data['kra_number'],
+                    'company_id':verrification['company_id'][0],
+                    'log_user_id':verrification['id'],
             })
             if employee:
                  return {
@@ -596,6 +606,44 @@ class ModelName(http.Controller):
 
 
     """ENDPOINT TO ALLOW CREATION DEPARTMENTS"""
+    @http.route('/create_service_type', type='json', auth='public', cors='*', method=['POST'])
+    def create_service_type(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+            if  not data['category']:
+                    return {
+                        "code":400,
+                        "message":"Cetegory cannot be empty"
+                    }
+            department = request.env["fleet.service.type"].sudo().create({
+                "name":data['name'],
+                'category':data['category'],
+                'log_user_id':verrification['id'],
+                'company_id':verrification['company_id'][0]
+            })
+            if department:
+                 return {
+                      "code":200,
+                      "status":"Success",
+                      "message":"Created a department"
+                 }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+    """ENDPOINT TO ALLOW CREATION DEPARTMENTS"""
+
+
     @http.route('/department', type='json', auth='public', cors='*', method=['POST'])
     def create_department(self, **kw):
         data = json.loads(request.httprequest.data)
@@ -831,6 +879,8 @@ class ModelName(http.Controller):
     @http.route('/new_customer', type='json', auth='public', cors='*', method=['POST'])
     def new_customer(self, **kw):
         data = json.loads(request.httprequest.data)
+        _logger.error(data),
+        _logger.error("TESTING THE CHANGES!!!!!!!!!!!!!111")
         """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
         if verrification['status']:

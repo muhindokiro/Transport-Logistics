@@ -293,6 +293,7 @@ class JwtController(http.Controller):
             'message': 'Logout'
         }
         return response
+    
     @http.route('/register', type='json', auth='public', cors='*', method=['POST'])
     def register(self, **kw):
         data = json.loads(request.httprequest.data)

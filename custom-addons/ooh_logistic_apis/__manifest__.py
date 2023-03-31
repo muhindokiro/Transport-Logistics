@@ -9,7 +9,7 @@
     'summary': "An Mpesa Intergration to allow payments",
     'description': """This is a module that holds and stores mpesa payments""",
     'license': 'LGPL-3',
-    'depends': ['base', 'mail', 'ooh_logistic_system', 'trip_management'],
+    'depends': ['base', 'mail'],
     'data': [],
     'images': ['static/description/banner.jpg'],
     'application': True,
