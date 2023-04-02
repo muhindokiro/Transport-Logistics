@@ -10,6 +10,75 @@ _logger = logging.getLogger(__name__)
 
 class ModelName(http.Controller):
 
+    """ENDPOINT TO ALLOW CREATION OF JOURNALS"""
+    @http.route('/create_contract', type='json', auth='public', cors='*', method=['POST'])
+    def new_employee_contract(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['name']:
+                return {
+                    "code":400,
+                    "message":"Name cannot be empty"
+                }
+            if  not data['employee_id']:
+                    return {
+                        "code":400,
+                        "message":"Employee cannot be empty"
+                    }
+            if  not data['date_start']:
+                    return {
+                        "code":400,
+                        "message":"Start Date cannot be empty"
+                    }
+            
+            if  not data['struct_id']:
+                    return {
+                        "code":400,
+                        "message":"Salary Structure cannot be empty"
+                    }
+            
+            if  not data['wage']:
+                    return {
+                        "code":400,
+                        "message":"Salary cannot be empty"
+                    }
+            employee=request.env['hr.employee'].sudo().search([('id',"=",data['employee_id'])])
+            if employee:
+                contract = request.env["hr.contract"].sudo().create({
+                    "name":data['name'],
+                    'employee_id':employee.id,
+                    'date_start':data['date_start'],
+                    'date_end':data['date_end'],
+                    'department_id':employee.department_id.id,
+                    'struct_id':data['struct_id'],
+                    'hr_responsible_id':employee.parent_id.id,
+                    'hra':data['hra'],
+                    'sacco_loan':data['sacco_loan'],
+                    'sacco_saving':data['sacco_saving'],
+                    'bank_loan':data['bank_loan'],
+                    'travel_allowance':data['travel_allowance'],
+                    'medical_allowance':data['medical_allowance'],
+                    'other_allowance':data['other_allowance'],
+                    'wage':data['wage'],
+                    'company_id':verrification['company_id'][0],
+                    'log_user_id':verrification['id'],
+                })
+                if contract:
+                    return {
+                        "code":200,
+                        "status":"Success",
+                        "message":"Created a contract"
+                    }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+        
     """ENDPOINT TO ALLOW CHARTS OF ACCOUNTS"""
     @http.route('/create_chart', type='json', auth='public', cors='*', method=['POST'])
     def new_charts(self, **kw):
@@ -113,22 +182,6 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Amount cannot be empty"
                     }
-            # if  not data['tax_scope']:
-            #         return {
-            #             "code":400,
-            #             "message":"Tax Scope cannot be empty"
-            #         }
-            # if  not data['tax_group_id']:
-            #         return {
-            #             "code":400,
-            #             "message":"Tax Group cannot be empty"
-            #         }
-            # if  not data['country_id']:
-            #         return {
-            #             "code":400,
-            #             "message":"Country cannot be empty"
-            #         }
-
             tax = request.env["account.tax"].sudo().create({
                  "name":data['name'],
                  'type_tax_use':data['type_tax_use'],
@@ -551,7 +604,7 @@ class ModelName(http.Controller):
                     "code":400,
                     "message":"Department cannot be empty"
                 }
-            if  not data['manager_id']:
+            if  not data['parent_id']:
                 return {
                     "code":400,
                     "message":"Manager cannot be empty"
@@ -566,26 +619,26 @@ class ModelName(http.Controller):
                     "code":400,
                     "message":"Nationality cannot be empty"
                 }
-            if  not data['identification_id'] or data['passport_id']:
+            if  not data['gender']:
                 return {
                     "code":400,
-                    "message":"Nationality Id/Passport Number cannot be empty"
+                    "message":"Gender cannot be empty"
                 }
-            if  not data['passport_id']:
-                    return {
-                        "code":400,
-                        "message":"Nationality Id/Passport Number cannot be empty"
-                    }
             employee = request.env["hr.employee"].sudo().create({
                     "name":data['name'],
                     "mobile_phone":data['mobile_phone'],
                     "employee_type":data['employee_type'],
                     "work_email":data['work_email'],
                     "department_id":data['department_id'],
+                    "gender":data['gender'],
                     "parent_id":data['parent_id'],
                     "country_id":data['country_id'],
                     "identification_id":data['identification_id'],
                     "passport_id":data['passport_id'],
+                    'kra':data['kra'],
+                    'huduma':data['huduma'],
+                    'nssf':data['nssf'],
+                    'job_title':data['job_title'],
                     "birthday":data['birthday'],
                     # "kra_number":data['kra_number'],
                     'company_id':verrification['company_id'][0],
@@ -879,8 +932,6 @@ class ModelName(http.Controller):
     @http.route('/new_customer', type='json', auth='public', cors='*', method=['POST'])
     def new_customer(self, **kw):
         data = json.loads(request.httprequest.data)
-        _logger.error(data),
-        _logger.error("TESTING THE CHANGES!!!!!!!!!!!!!111")
         """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
         if verrification['status']:

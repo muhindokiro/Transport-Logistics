@@ -156,6 +156,20 @@ class HrEmployees(models.Model):
 
 
     log_user_id=fields.Many2one('logistic.users',string="Created By")
+    kra=fields.Char(string="Kra")
+    huduma=fields.Char(string="Huduma")
+    nhif=fields.Char(string="Nhif")
+    nssf=fields.Char(string="Nssf")
+
+class HrContract(models.Model):
+    _inherit = "hr.contract"
+    _description = "Tracking who created the Contract"
+
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By")
+    bank_loan=fields.Float(string="Bank Loan")
+    sacco_loan=fields.Float(string="Sacco Loan")
+    sacco_saving=fields.Float(string="Sacco Saving")
 
 class ResPartner(models.Model):
     _inherit = "res.partner"

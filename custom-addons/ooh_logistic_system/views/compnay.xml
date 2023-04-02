@@ -27,7 +27,7 @@
                                 <field name="name" />
                                 <field name="email" />
                                 <field name="company_id" />
-                                <field name="passwd" widget="password"/>
+                                <field name="passwd" password="True"/>
                             </group>
                             <group>
                                 <!-- <field name="log_user_id" /> -->
