@@ -57,8 +57,7 @@ class VehicleTrip(models.Model):
     internal_driver = fields.Many2one("res.partner", string='Driver Name')
     internal_truck = fields.Many2one("fleet.vehicle", string='Vehicle Plate No.')
     internal_turnboy = fields.Many2one("res.partner", string='Turnboy Name')
-    
-
+    company_id=fields.Many2one('res.company',string="Company",readonly=True)
 
 class VehicleTripLine(models.Model):
     _inherit = 'fleet.vehicle.log.services'
