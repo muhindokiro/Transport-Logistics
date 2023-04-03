@@ -128,8 +128,6 @@ class ValuesDetails(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
     
-
-
     @http.route('/customer_details', type='json', auth='public', cors='*', method=['POST'])
     def get_customer_details(self,**kw):
         files = []

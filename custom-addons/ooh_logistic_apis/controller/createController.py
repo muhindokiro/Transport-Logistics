@@ -1048,7 +1048,6 @@ class ModelName(http.Controller):
                 }
             file = request.env["open.file"].sudo().create({
                 "bill_ref":data['bill_ref'],
-                # 'date':today,
                 'arr_date':data['arr_date'],
                 "dep_date":data['dep_date'],
                 'customer_id':data['customer_id'],
