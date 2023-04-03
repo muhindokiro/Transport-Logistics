@@ -128,6 +128,87 @@ class ValuesDetails(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
     
+
+
+    @http.route('/customer_details', type='json', auth='public', cors='*', method=['POST'])
+    def get_customer_details(self,**kw):
+        files = []
+        invoices=[]
+        bills=[]
+        trips=[]
+        bills=[]
+        data = json.loads(request.httprequest.data)
+        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            # """get all account types"""
+            customer = request.env["res.partner"].sudo().search([("company_id.id","=",verrification['company_id'][0]),("id","=",data['customer_id'])])
+            _logger.error(customer)
+            _logger.error("THE CUSTOMER TYPE INFORMATIONS!!!!!!11")
+            cust_details={
+                "name":customer.name,
+                "email":customer.email,
+                "mobile":customer.phone,
+                "city":customer.city,
+                "vat":customer.vat,
+                "country":customer.country_id.name,
+                "type":customer.company_type,
+            }
+            [files.append({
+            "name": x.name if x.name else "",
+            "bill_ref": x.bill_ref if x.bill_ref else "",
+            "inv_ref": x.inv_ref if x.inv_ref else "",
+            "return_date": x.return_date if x.return_date else "",
+            "country": x.country_id.id if x.country_id else "",
+            "arr_date": x.arr_date if x.arr_date else "",
+            "state":x.state,
+            'id': x.id
+            })for x in request.env["open.file"].sudo().search([("customer_id.id","=",customer.id)])]
+            [invoices.append({
+            "name": x.name if x.name else "",
+            "date": x.invoice_date if x.invoice_date else "",
+            "due_date": x.invoice_payment_term_id.name if x.invoice_payment_term_id else "",
+            "paid": x.amount_paid	 if x.amount_paid	 else "",
+            "due_amount": x.amount_residual if x.amount_residual else "",
+            "invoice_total": x.amount_total if x.amount_total else "",
+            'id': x.id
+            })for x in request.env["account.move"].sudo().search([("partner_id.id","=",customer.id),("move_type","=","out_invoice")])]
+            [bills.append({
+            "name": x.name if x.name else "",
+            "date": x.invoice_date if x.invoice_date else "",
+            "due_date": x.invoice_payment_term_id.name if x.invoice_payment_term_id else "",
+            "paid": x.amount_paid	 if x.amount_paid	 else "",
+            "due_amount": x.amount_residual if x.amount_residual else "",
+            "invoice_total": x.amount_total if x.amount_total else "",
+            'id': x.id
+            })for x in request.env["account.move"].sudo().search([("partner_id.id","=",customer.id),("move_type","=","in_invoice")])]
+            [trips.append({
+            "name": x.name if x.name else "",
+            "date": x.invoice_date if x.invoice_date else "",
+            "customer": x.partner_id.name if x.partner_id else "",
+            "departure": x.departure_date	 if x.departure_date	 else "",
+            "return": x.return_date if x.return_date else "",
+            "type": x.type if x.type else "",
+            "car":x.license_plate if x.type=="internal" else x.external_truck,
+            "driver":x.internal_driver.name if x.type=="internal" else x.external_driver,
+            'id': x.id
+            })for x in request.env["vehicle.trip"].sudo().search([("partner_id.id","=",customer.id)])]
+            return {
+                "code": 200,
+                "status": "success",
+                "information":cust_details,
+                "invoices":invoices,
+                "bills":bills,
+                "files":files,
+                "trips":trips,
+                "message": "My Details"
+            }
+        else:
+            return {
+                "code": 403,
+                "status": "Failed",
+                "Message": "NOT AUTHORISED!"
+            }
     
     # """"ENDPOINT TO ALLOW READING OF JOURNl TYPES"""
     @http.route('/me', type='json', auth='public', cors='*', method=['POST'])

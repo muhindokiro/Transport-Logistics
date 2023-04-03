@@ -507,9 +507,9 @@ class ModelName(http.Controller):
                 }
 
             manufacturer = request.env["fleet.vehicle.model.brand"].sudo().create({
-                        "name":data['name'],
-                        'company_id':verrification['company_id'][0],
-                        'log_user_id':verrification['id'],
+                 "name":data['name'],
+                 'company_id':verrification['company_id'][0],
+                               'log_user_id':verrification['id'],
             })
             if manufacturer:
                  return {
@@ -553,16 +553,16 @@ class ModelName(http.Controller):
                     "message":"Category cannot be empty"
                 }
 
-            vehicle_model = request.env["fleet.vehicle.model"].sudo().create({
+            manufacturer = request.env["fleet.vehicle.model"].sudo().create({
                  "name":data['name'],
                  "brand_id":data['name'],
                  "vehicle_type":data['vehicle_type'],
                  "category_id":data['category_id'],
                  'company_id':verrification['company_id'][0],
-                 'log_user_id':verrification['id'],
+                                'log_user_id':verrification['id'],
 
             })
-            if vehicle_model:
+            if manufacturer:
                  return {
                       "code":200,
                       "status":"Success",
@@ -694,8 +694,9 @@ class ModelName(http.Controller):
                 "status":"Failed",
                 "Message":"NOT AUTHORISED!"
             }
-            
     """ENDPOINT TO ALLOW CREATION DEPARTMENTS"""
+
+
     @http.route('/department', type='json', auth='public', cors='*', method=['POST'])
     def create_department(self, **kw):
         data = json.loads(request.httprequest.data)
