@@ -24,7 +24,7 @@ class UpdateDetails(http.Controller):
                 user.sudo().write({
                     "id":user.id,
                     "email":data['email'],
-                    "state";data["state"],
+                    "state":data["state"],
                     "mobile":data['mobile'],
                     "name":data['name'],
                 })
