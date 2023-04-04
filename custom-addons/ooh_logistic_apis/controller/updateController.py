@@ -19,7 +19,7 @@ class UpdateDetails(http.Controller):
         verrification = verrifyAuth.validator.verify_token(data['token'])
         if verrification['status']:
             # """get all account types"""
-            user = request.env["logistic.users"].sudo().search([('name', '!=', False),("company_id.id","=",verrification['company_id'][0]),("id","=",verrification['id'])])
+            user = request.env["logistic.users"].sudo().search([('name', '!=', False),("company_id.id","=",verrification['company_id'][0]),("id","=",data['user_id'])])
             if user:
                 user.sudo().write({
                     "id":user.id,
