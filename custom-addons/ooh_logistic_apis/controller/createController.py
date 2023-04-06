@@ -1016,6 +1016,11 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Bill of Lading cannot be empty"
                     }
+            if  not data['date']:
+                    return {
+                        "code":400,
+                        "message":"Date cannot be empty"
+                    }
             if  not data['arr_date']:
                     return {
                         "code":400,
@@ -1048,7 +1053,7 @@ class ModelName(http.Controller):
                 }
             file = request.env["open.file"].sudo().create({
                 "bill_ref":data['bill_ref'],
-                # 'date':today,
+                'date':data['date'],
                 'arr_date':data['arr_date'],
                 "dep_date":data['dep_date'],
                 'customer_id':data['customer_id'],
