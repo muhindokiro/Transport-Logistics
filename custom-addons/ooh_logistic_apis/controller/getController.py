@@ -607,6 +607,7 @@ class ReadValues(http.Controller):
                 "uom": x.uom_id.name if x.uom_id else "",
                 "sale_ok": x.sale_ok if x.sale_ok else "",
                 "categ_id": x.categ_id.name if x.categ_id else "",
+                "categ": x.categ_id.id if x.categ_id else "",
                 'id': x.id
             }) for x in products]
             return {
@@ -640,6 +641,7 @@ class ReadValues(http.Controller):
             [values.append({
                 "name": x.name if x.name else "",
                 "manager": x.manager_id.name if x.manager_id else "",
+                "manager_id": x.manager_id.id if x.manager_id else "",
                 'id': x.id
             }) for x in departments]
             return {
