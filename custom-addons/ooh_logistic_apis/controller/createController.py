@@ -1041,11 +1041,6 @@ class ModelName(http.Controller):
                 "code":400,
                 "message":"Container Return Date cannot be empty"
                 }
-            if  not data['invoice_payment_term_id']:
-                return {
-                "code":400,
-                "message":"Payment Term cannot be empty"
-                }
             file = request.env["open.file"].sudo().create({
                 "bill_ref":data['bill_ref'],
                 'arr_date':data['arr_date'],
