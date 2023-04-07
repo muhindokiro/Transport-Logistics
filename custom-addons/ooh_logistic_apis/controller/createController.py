@@ -1066,7 +1066,7 @@ class ModelName(http.Controller):
                 'journal_id':data['journal_id'],
                 "country_id":data['country_id'],
                 'return_date':data['return_date'],
-                'invoice_payment_term_id':data[0],
+                'invoice_payment_term_id':data['invoice_payment_term_id'],
                 'log_user_id':verrification['id']
             })
             if file:
