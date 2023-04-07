@@ -1016,16 +1016,6 @@ class ModelName(http.Controller):
                         "code":400,
                         "message":"Bill of Lading cannot be empty"
                     }
-            if  not data['inv_ref']:
-                    return {
-                        "code":400,
-                        "message":"Invoice Ref cannot be empty"
-                    }
-            if  not data['date']:
-                    return {
-                        "code":400,
-                        "message":"Date cannot be empty"
-                    }
             if  not data['arr_date']:
                     return {
                         "code":400,
@@ -1058,15 +1048,13 @@ class ModelName(http.Controller):
                 }
             file = request.env["open.file"].sudo().create({
                 "bill_ref":data['bill_ref'],
-                "inv_ref":data['inv_ref'],
-                'date':data['date'],
                 'arr_date':data['arr_date'],
                 "dep_date":data['dep_date'],
                 'customer_id':data['customer_id'],
                 'journal_id':data['journal_id'],
                 "country_id":data['country_id'],
                 'return_date':data['return_date'],
-                'invoice_payment_term_id':data[0],
+                'payment_date':data["payment_date"],
                 'log_user_id':verrification['id']
             })
             if file:
@@ -1075,6 +1063,105 @@ class ModelName(http.Controller):
                       "status":"Success",
                       "message":"You have successful opened a file"
                  }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+
+
+    @http.route('/create_batch', type='json', auth='public', cors='*', method=['POST'])
+    def create_batch(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            batch=request.env["hr.payslip.run"].sudo().create({
+                    "date_start":data['date_from'],
+                    "date_end":data['date_to'],
+                    "name":data["name"],
+                    'log_user_id':verrification['id'],
+                    "company_id":verrification['company_id'][0],
+            })
+            if batch:
+                  return {
+                    "code":200,
+                    "status":"Success",
+                    "message":"You have created a batch"
+                }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+        
+    """ENDPOINT TO ALLOW CREATION DEPARTMENTS"""
+    @http.route('/run_payroll', type='json', auth='public', cors='*', method=['POST'])
+    def run_payroll(self, **kw):
+        payslipz=[]
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            if  not data['type']=="ALL":
+                return {
+                    "code":400,
+                    "message":"Type of payroll cannot be empty"
+                }
+            if data['type']=="ALL":
+                contracts = request.env["hr.contract"].sudo().search([("company_id.id","=",verrification['company_id'][0]),("state",'in',["open"])])
+                for x in contracts:
+                    payslip = request.env["hr.payslip"].sudo().create({
+                            "company_id":verrification['company_id'][0],
+                            "employee_id":x.employee_id.id,
+                            "contract_id":x.id,
+                            "date_from":data['date_from'],
+                            "date_to":data['date_to'],
+                            "struct_id":x.struct_id.id,
+                            "name":"Payslip for `${x.employee_id.name}`",
+                            'log_user_id':verrification['id'],
+                            "journal_id":x.struct_id.journal_id.id
+                    })
+                    if payslip:
+                        payslip.compute_sheet()
+                        payslipz.append({
+                             "ref":payslip.number,
+                             "employee":payslip.employee_id.name,
+                             "structure":payslip.struct_id.name,
+                        })
+                return {
+                    "code":200,
+                    "status":"Success",
+                    "payslips":payslipz,
+                    "message":"These payslips are in draft"
+                }
+        else:
+            return {
+                "code":403,
+                "status":"Failed",
+                "Message":"NOT AUTHORISED!"
+            }
+        
+
+    @http.route('/confirm_payslips', type='json', auth='public', cors='*', method=['POST'])
+    def confirm_payslips(self, **kw):
+        data = json.loads(request.httprequest.data)
+        """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            """your code goes here"""
+            contracts = request.env["hr.payslip"].sudo().search([("company_id.id","=",verrification['company_id'][0]),("id","in",data["payslips"]),("state",'in',["open"])])
+            for x in contracts:
+                x.action_paylsip_done()
+            return {
+                "code":200,
+                "status":"Success",
+                "message":"You have confirmed all the paylsips"
+            }
         else:
             return {
                 "code":403,

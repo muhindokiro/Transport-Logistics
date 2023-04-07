@@ -141,16 +141,17 @@ class ValuesDetails(http.Controller):
         if verrification['status']:
             # """get all account types"""
             customer = request.env["res.partner"].sudo().search([("company_id.id","=",verrification['company_id'][0]),("id","=",data['customer_id'])])
-            _logger.error(customer)
-            _logger.error("THE CUSTOMER TYPE INFORMATIONS!!!!!!11")
             cust_details={
-                "name":customer.name,
-                "email":customer.email,
-                "mobile":customer.phone,
-                "city":customer.city,
-                "vat":customer.vat,
-                "country":customer.country_id.name,
-                "type":customer.company_type,
+                "name":customer.name if customer.name else "",
+                "email":customer.email if customer.email else "",
+                "mobile":customer.phone if customer.phone else "",
+                "country_id":customer.country_id.id if customer.country_id else "",
+                "receivable_id":customer.property_account_receivable_id.id if customer.property_account_receivable_id else "",
+                "payable_id":customer.property_account_payable_id.id if customer.property_account_payable_id else "",
+                "city":customer.city if customer.city else "",
+                "vat":customer.vat if customer.vat else "",
+                "country":customer.country_id.name if customer.country_id else "",
+                "type":customer.company_type if customer.company_type else "",
             }
             [files.append({
             "name": x.name if x.name else "",
@@ -215,8 +216,6 @@ class ValuesDetails(http.Controller):
         data = json.loads(request.httprequest.data)
         # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
-        _logger.error(verrification)
-        _logger.error("CHECKING THE RESPONSE@@@@@@@@@@@2")
         if verrification['status']:
             # """get all account types"""
             types = request.env["logistic.users"].sudo().search([('name', '!=', False),("company_id.id","=",verrification['company_id'][0]),("id","=",verrification['id'])])
@@ -224,6 +223,7 @@ class ValuesDetails(http.Controller):
             "name": x.name if x.name else "",
             "login": x.email if x.email else "",
             "mobile": x.mobile if x.mobile else "",
+            "state": x.state if x.state else "",
             'id': x.id
             })
              for x in types]

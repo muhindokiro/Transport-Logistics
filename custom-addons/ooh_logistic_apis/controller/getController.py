@@ -10,19 +10,93 @@ _logger = logging.getLogger(__name__)
 
 
 class ReadValues(http.Controller):
-
-    @http.route('/get_countries', type='json', auth='public', cors='*', method=['POST'])
-    def get_countries(self,**kw):
+    @http.route('/get_batch', type='json', auth='public', cors='*', method=['POST'])
+    def get_batch(self, **kw):
         values = []
         data = json.loads(request.httprequest.data)
         # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
         if verrification['status']:
             # """get all account types"""
-            country = request.env["res.country"].sudo().search([('name', '!=', False),("name", 'ilike', data['name'])])
+            obj = request.env["hr.payslip.run"]
+            items = len(obj.sudo().search(
+                [('company_id.id', '=', verrification['company_id'][0])]))
+            batch = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
+                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
-            "name": x.name if x.name else "",
-            'id': x.id
+                "name": x.name if x.name else "",
+                "from": x.date_from if x.date_from else "",
+                "to": x.date_to if x.date_to else "",
+                "status": x.state if x.state else "",
+                'id': x.id
+            })
+                for x in batch]
+            return {
+                "code": 200,
+                "status": "success",
+                "bacthes": values,
+                "total_items": items,
+                "items_per_page": data['limit'],
+                "message": "Payrol Batches"
+            }
+        else:
+            return {
+                "code": 403,
+                "status": "Failed",
+                "Message": "NOT AUTHORISED!"
+            }
+
+    @http.route('/get_payslips', type='json', auth='public', cors='*', method=['POST'])
+    def get_payslip(self, **kw):
+        values = []
+        data = json.loads(request.httprequest.data)
+        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            # """get all account types"""
+            obj = request.env["hr.payslip"]
+            items = len(obj.sudo().search(
+                [('company_id.id', '=', verrification['company_id'][0])]))
+            slips = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
+                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+            [values.append({
+                "ref": x.number if x.number else "",
+                "name": x.name if x.name else "",
+                "employee": x.employee_id.name if x.employee_id else "",
+                "from": x.date_from if x.date_from else "",
+                "to": x.date_to if x.date_to else "",
+                "status": x.state if x.state else "",
+                'id': x.id
+            })
+                for x in slips]
+            return {
+                "code": 200,
+                "status": "success",
+                "payslips": values,
+                "total_items": items,
+                "items_per_page": data['limit'],
+                "message": "All Paylips"
+            }
+        else:
+            return {
+                "code": 403,
+                "status": "Failed",
+                "Message": "NOT AUTHORISED!"
+            }
+
+    @http.route('/get_countries', type='json', auth='public', cors='*', method=['POST'])
+    def get_countries(self, **kw):
+        values = []
+        data = json.loads(request.httprequest.data)
+        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            # """get all account types"""
+            country = request.env["res.country"].sudo().search(
+                [('name', '!=', False), ("name", 'ilike', data['name'])])
+            [values.append({
+                "name": x.name if x.name else "",
+                'id': x.id
             })
                 for x in country]
             return {
@@ -38,72 +112,39 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-    # """"ENDPOINT TO ALLOW READING OF JOURNl TYPES"""
-    @http.route('/account_types', type='json', auth='public', cors='*', method=['POST'])
-    def get_account_types(self,**kw):
-        values = []
-        data = json.loads(request.httprequest.data)
-        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-        verrification = verrifyAuth.validator.verify_token(data['token'])
-        if verrification['status']:
-            # """get all account types"""
-            types = request.env["account.account.type"].sudo().search([('name', '!=', False),("name", 'ilike', data['name'])])
-            [values.append({
-            "name": x.name if x.name else "",
-            "type": x.type if x.type else "",
-            'id': x.id
-            })
-             for x in types]
-            return {
-                "code": 200,
-                "status": "success",
-                "account_types": values,
-                "message": "All Account Types"
-            }
-        else:
-            return {
-                "code": 403,
-                "status": "Failed",
-                "Message": "NOT AUTHORISED!"
-            }
-
-
-        # """ENDPOINT TO GET ALL CHARTS OF ACCOUNT"""
-
-    @http.route('/journal_items', type='json', auth='public', cors='*', method=['POST'])
-    def get_journal_items(self, **kw):
-        values = []
-        data = json.loads(request.httprequest.data)
-        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-        verrification = verrifyAuth.validator.verify_token(data['token'])
-        if verrification['status']:
-            # """get all account types"""
-            obj = request.env["account.move.line"]
-            items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
-            journal_items = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
-            [values.append({
-                "date": x.date if x.date else "",
-                "name": x.move_name if x.move_name else "",
-                "account":x.account_id.name if x.account_id.name else "",
-                "partner":x.partner_id.name if x.partner_id.name else "",
-                "debit":x.debit if x.debit else "",
-                "credit":x.credit if x.credit else 0.00,
-                'id': x.id,
-                }) for x in journal_items]
-            return {
-                "code": 200,
-                "status": "success",
-                "journal_items": values,
-                "total_items": items,
-                "items_per_page": data['limit']
-            }
-        else:
-            return {
-                "code": 403,
-                "status": "Failed",
-                "Message": "NOT AUTHORISED!"
-            }
-
+    # @http.route('/journal_items', type='json', auth='public', cors='*', method=['POST'])
+    # def get_journal_items(self, **kw):
+    #     values = []
+    #     data = json.loads(request.httprequest.data)
+    #     # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+    #     verrification = verrifyAuth.validator.verify_token(data['token'])
+    #     if verrification['status']:
+    #         # """get all account types"""
+    #         obj = request.env["account.move.line"]
+    #         items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
+    #         journal_items = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+    #         [values.append({
+    #             "date": x.date if x.date else "",
+    #             "name": x.move_name if x.move_name else "",
+    #             "account":x.account_id.name if x.account_id.name else "",
+    #             "partner":x.partner_id.name if x.partner_id.name else "",
+    #             "debit":x.debit if x.debit else "",
+    #             "credit":x.credit if x.credit else 0.00,
+    #             'id': x.id,
+    #             }) for x in journal_items]
+    #         return {
+    #             "code": 200,
+    #             "status": "success",
+    #             "journal_items": values,
+    #             "total_items": items,
+    #             "items_per_page": data['limit']
+    #         }
+    #     else:
+    #         return {
+    #             "code": 403,
+    #             "status": "Failed",
+    #             "Message": "NOT AUTHORISED!"
+    #         }
 
     @http.route('/journal_entries', type='json', auth='public', cors='*', method=['POST'])
     def get_journal_entries(self, **kw):
@@ -114,17 +155,23 @@ class ReadValues(http.Controller):
         if verrification['status']:
             # """get all account types"""
             obj = request.env["account.move"]
-            items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
-            journal_entries = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+            items = len(obj.sudo().search(
+                [('company_id.id', '=', verrification['company_id'][0])]))
+            journal_entries = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
+                "name", 'ilike', data['name']),("move_type","in",data['move_type'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "date": x.date if x.date else "",
-                "journal":x.journal_id.name if x.journal_id else "",
-                "partner":x.partner_id.name if x.partner_id else "",
-                "state":x.state,
+                "journal": x.journal_id.name if x.journal_id else "",
+                "partner": x.partner_id.name if x.partner_id else "",
+                "state": x.state,
+                "type": "INVOICE" if x.move_type=="out_invoice" else "BILL",
                 "amount": x.amount_total_signed,
+                "paid": x.amount_paid,
+                "balance": x.amount_residual,
+
                 'id': x.id,
-                }) for x in journal_entries]
+            }) for x in journal_entries]
             return {
                 "code": 200,
                 "status": "success",
@@ -149,13 +196,15 @@ class ReadValues(http.Controller):
         if verrification['status']:
             # """get all account types"""
             obj = request.env["account.account"]
-            items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
-            accounts = obj.sudo().search([("internal_type","ilike",data['type']),('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+            items = len(obj.sudo().search(
+                [('company_id.id', '=', verrification['company_id'][0])]))
+            accounts = obj.sudo().search([("account_type", "ilike", data['type']), ('company_id.id', '=', verrification['company_id'][0]), (
+                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
-            "name": x.name if x.name else "",
-            "type": x.user_type_id.name if x.user_type_id else "",
-            'id': x.id,
-            "code": x.code if x.code else ""
+                "name": x.name if x.name else "",
+                "type": x.account_type if x.account_type else "",
+                'id': x.id,
+                "code": x.code if x.code else ""
             }) for x in accounts]
             return {
                 "code": 200,
@@ -183,12 +232,12 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             journals = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
-            "name": x.name if x.name else "",
-            "type": x.type if x.type else "",
-            'id': x.id,
-            "code": x.code if x.code else ""
+                "name": x.name if x.name else "",
+                "type": x.type if x.type else "",
+                'id': x.id,
+                "code": x.code if x.code else ""
             }) for x in journals]
             return {
                 "code": 200,
@@ -216,12 +265,12 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             taxes = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
-            "name": x.name if x.name else "",
-            "type_tax_use": x.type_tax_use if x.type_tax_use else "",
-            "amount": x.amount if x.amount else "",
-            'id': x.id
+                "name": x.name if x.name else "",
+                "type_tax_use": x.type_tax_use if x.type_tax_use else "",
+                "amount": x.amount if x.amount else "",
+                'id': x.id
             }) for x in taxes]
             return {
                 "code": 200,
@@ -249,7 +298,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             files = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "client": x.customer_id.name if x.customer_id else "",
                 "name": x.name if x.name else "",
@@ -289,7 +338,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             files = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "related_file": x.related_file.name if x.related_file else "",
                 "partner_id": x.partner_id.name if x.partner_id else "",
@@ -324,7 +373,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             employees = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "work_phone": x.work_phone if x.work_phone else "",
@@ -359,7 +408,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             customer = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "company_type": x.company_type,
@@ -394,7 +443,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             users = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "email": x.email if x.email else "",
@@ -430,7 +479,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('vehicle_type', 'in', ['car', 'bike'])]))
             models = obj.sudo().search([('vehicle_type', 'in', [
-                'car', 'bike']),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                'car', 'bike']), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "brand": x.brand_id.name if x.brand_id else "",
@@ -452,7 +501,6 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-
     @http.route('/services', type='json', auth='public', cors='*', method=['POST'])
     def get_services(self, **kw):
         values = []
@@ -462,8 +510,10 @@ class ReadValues(http.Controller):
         if verrification['status']:
             # """get all account types"""
             obj = request.env["fleet.vehicle.log.services"]
-            items = len(obj.sudo().search([('description', '!=', False),('company_id.id', '=', verrification['company_id'][0])]))
-            services = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("description", 'ilike', data['name'])],limit=data['limit'], offset=data['offset'])
+            items = len(obj.sudo().search(
+                [('description', '!=', False), ('company_id.id', '=', verrification['company_id'][0])]))
+            services = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
+                "description", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "vehicle": x.vehicle_id.license_plate if x.vehicle_id else "",
                 "service": x.service_type_id.name if x.service_type_id else "",
@@ -489,7 +539,6 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-
     @http.route('/service_types', type='json', auth='public', cors='*', method=['POST'])
     def get_service_types(self, **kw):
         values = []
@@ -499,11 +548,13 @@ class ReadValues(http.Controller):
         if verrification['status']:
             # """get all account types"""
             obj = request.env["fleet.service.type"]
-            items = len(obj.sudo().search([('name', '!=', False),('company_id.id', '=', verrification['company_id'][0])]))
-            manufacturers = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])],limit=data['limit'], offset=data['offset'])
+            items = len(obj.sudo().search(
+                [('name', '!=', False), ('company_id.id', '=', verrification['company_id'][0])]))
+            manufacturers = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
+                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
-                  "categ": x.category if x.category else "",
+                "categ": x.category if x.category else "",
                 'id': x.id
             }) for x in manufacturers]
             return {
@@ -530,7 +581,8 @@ class ReadValues(http.Controller):
             # """get all account types"""
             obj = request.env["fleet.vehicle.model.brand"]
             items = len(obj.sudo().search([('name', '!=', False)]))
-            manufacturers = obj.sudo().search([('name', '!=', False),("name", 'ilike', data['name'])],limit=data['limit'], offset=data['offset'])
+            manufacturers = obj.sudo().search(
+                [('name', '!=', False), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 'id': x.id
@@ -561,7 +613,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             vehicles = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "model": x.model_id.name if x.model_id else "",
                 "license_plate": x.license_plate if x.license_plate else "",
@@ -599,14 +651,16 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             products = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "detailed_type": x.detailed_type if x.detailed_type else "",
                 "list_price": x.list_price if x.list_price else "",
                 "uom": x.uom_id.name if x.uom_id else "",
                 "sale_ok": x.sale_ok if x.sale_ok else "",
+                "cost": x.standard_price if x.standard_price else "",
                 "categ_id": x.categ_id.name if x.categ_id else "",
+                "qty": x.qty_available if x.qty_available else "",
                 "categ": x.categ_id.id if x.categ_id else "",
                 'id': x.id
             }) for x in products]
@@ -624,7 +678,6 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-
     @http.route('/departments', type='json', auth='public', cors='*', method=['POST'])
     def get_departments(self, **kw):
         values = []
@@ -637,7 +690,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             departments = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "manager": x.manager_id.name if x.manager_id else "",
@@ -670,7 +723,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             contracts = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "employee_id": x.employee_id.name if x.employee_id else "",
@@ -709,7 +762,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             structure = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 "code": x.code if x.code else "",
@@ -729,7 +782,6 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-
     @http.route('/category', type='json', auth='public', cors='*', method=['POST'])
     def get_category(self, **kw):
         values = []
@@ -742,7 +794,7 @@ class ReadValues(http.Controller):
             items = len(obj.sudo().search(
                 [('company_id.id', '=', verrification['company_id'][0])]))
             category = obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+                [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
                 'id': x.id
