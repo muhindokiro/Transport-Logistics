@@ -19,14 +19,12 @@ class ReadValues(http.Controller):
         if verrification['status']:
             # """get all account types"""
             obj = request.env["hr.payslip.run"]
-            items = len(obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0])]))
-            batch = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
-                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
+            items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
+            batch = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
-                "from": x.date_from if x.date_from else "",
-                "to": x.date_to if x.date_to else "",
+                "from": x.date_start if x.date_start else "",
+                "to": x.date_end if x.date_end else "",
                 "status": x.state if x.state else "",
                 'id': x.id
             })
@@ -46,44 +44,7 @@ class ReadValues(http.Controller):
                 "Message": "NOT AUTHORISED!"
             }
 
-    @http.route('/get_payslips', type='json', auth='public', cors='*', method=['POST'])
-    def get_payslip(self, **kw):
-        values = []
-        data = json.loads(request.httprequest.data)
-        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-        verrification = verrifyAuth.validator.verify_token(data['token'])
-        if verrification['status']:
-            # """get all account types"""
-            obj = request.env["hr.payslip"]
-            items = len(obj.sudo().search(
-                [('company_id.id', '=', verrification['company_id'][0])]))
-            slips = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]), (
-                "name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
-            [values.append({
-                "ref": x.number if x.number else "",
-                "name": x.name if x.name else "",
-                "employee": x.employee_id.name if x.employee_id else "",
-                "from": x.date_from if x.date_from else "",
-                "to": x.date_to if x.date_to else "",
-                "status": x.state if x.state else "",
-                'id': x.id
-            })
-                for x in slips]
-            return {
-                "code": 200,
-                "status": "success",
-                "payslips": values,
-                "total_items": items,
-                "items_per_page": data['limit'],
-                "message": "All Paylips"
-            }
-        else:
-            return {
-                "code": 403,
-                "status": "Failed",
-                "Message": "NOT AUTHORISED!"
-            }
-
+    
     @http.route('/get_countries', type='json', auth='public', cors='*', method=['POST'])
     def get_countries(self, **kw):
         values = []
@@ -111,40 +72,6 @@ class ReadValues(http.Controller):
                 "status": "Failed",
                 "Message": "NOT AUTHORISED!"
             }
-
-    # @http.route('/journal_items', type='json', auth='public', cors='*', method=['POST'])
-    # def get_journal_items(self, **kw):
-    #     values = []
-    #     data = json.loads(request.httprequest.data)
-    #     # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
-    #     verrification = verrifyAuth.validator.verify_token(data['token'])
-    #     if verrification['status']:
-    #         # """get all account types"""
-    #         obj = request.env["account.move.line"]
-    #         items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
-    #         journal_items = obj.sudo().search([('company_id.id', '=', verrification['company_id'][0]),("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
-    #         [values.append({
-    #             "date": x.date if x.date else "",
-    #             "name": x.move_name if x.move_name else "",
-    #             "account":x.account_id.name if x.account_id.name else "",
-    #             "partner":x.partner_id.name if x.partner_id.name else "",
-    #             "debit":x.debit if x.debit else "",
-    #             "credit":x.credit if x.credit else 0.00,
-    #             'id': x.id,
-    #             }) for x in journal_items]
-    #         return {
-    #             "code": 200,
-    #             "status": "success",
-    #             "journal_items": values,
-    #             "total_items": items,
-    #             "items_per_page": data['limit']
-    #         }
-    #     else:
-    #         return {
-    #             "code": 403,
-    #             "status": "Failed",
-    #             "Message": "NOT AUTHORISED!"
-    #         }
 
     @http.route('/journal_entries', type='json', auth='public', cors='*', method=['POST'])
     def get_journal_entries(self, **kw):
@@ -378,8 +305,22 @@ class ReadValues(http.Controller):
                 "name": x.name if x.name else "",
                 "work_phone": x.work_phone if x.work_phone else "",
                 "work_email": x.work_email if x.work_email else "",
-                "department_id": x.department_id.name if x.department_id else "",
+                "department": x.department_id.name if x.department_id else "",
+                "department_id": x.department_id.id if x.department_id else "",
+                "parent_id": x.parent_id.id if x.parent_id else "",
+                "marital":x.marital if x.marital else "",
                 "job_title": x.job_title if x.job_title else "",
+                "gender":x.gender if x.gender else "",
+                "manager":x.parent_id.name if x.parent_id else "",
+                "kra":x.kra if x.kra else "",
+                "employee_type":x.employee_type if x.employee_type else "",
+                "birthday":x.birthday if x.birthday else "",
+                "nssf":x.nssf if x.nssf else "",
+                'nhif':x.nhif if x.nhif else "",
+                "huduma":x.huduma if x.huduma else "",
+                "passport_id":x.passport_id if x.passport_id else "",
+                "identification_id":x.identification_id if x.identification_id else "",
+                "country_id":x.country_id.id if x.country_id else "",
                 'id': x.id
             }) for x in employees]
             return {
@@ -726,7 +667,7 @@ class ReadValues(http.Controller):
                 [('company_id.id', '=', verrification['company_id'][0]), ("name", 'ilike', data['name'])], limit=data['limit'], offset=data['offset'])
             [values.append({
                 "name": x.name if x.name else "",
-                "employee_id": x.employee_id.name if x.employee_id else "",
+                "employee": x.employee_id.name if x.employee_id else "",
                 "job_id": x.job_id.name if x.job_id else "",
                 "date_start": x.date_start if x.date_start else "",
                 "date_end": x.date_end if x.date_end else "",
@@ -734,6 +675,17 @@ class ReadValues(http.Controller):
                 "state": x.state if x.state else "",
                 "hr_responsible": x.hr_responsible_id.name if x.hr_responsible_id else "",
                 "contract_type_id": x.contract_type_id.name if x.contract_type_id else "",
+                "wage":x.wage ,
+                "other_allowance":x.other_allowance ,
+                "medical_allowance":x.medical_allowance ,
+                "travel_allowance":x.travel_allowance,
+                "bank_loan":x.bank_loan ,
+                "sacco_saving":x.sacco_saving,
+                "sacco_loan":x.sacco_loan,
+                "hra":x.hra,
+                "struct_id":x.struct_id.id,
+                "employee_id": x.employee_id.id,
+                "hr_responsible_id":x.hr_responsible_id.id,
                 'id': x.id
             }) for x in contracts]
             return {

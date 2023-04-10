@@ -59,5 +59,27 @@
                 </tree>
             </field>
         </record>
+
+        <record id="ooh_contract_hr_form_inherit_view_center" model="ir.ui.view">
+            <field name="name">hr.payroll.structure.inherit.form</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="om_hr_payroll.view_hr_employee_grade_form" />
+            <field name="arch" type="xml">
+               <field name="code" position="after">
+                <field name="journal_id"/>
+            </field>
+            </field>
+        </record>
+
+        <record id="ooh_payslip_run_hr_form_inherit_view_center" model="ir.ui.view">
+            <field name="name">hr.payslip.run.inherit.form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="om_hr_payroll.hr_payslip_run_form" />
+            <field name="arch" type="xml">
+               <field name="credit_note" position="after">
+                <field name="company_id"/>
+            </field>
+            </field>
+        </record>
     </data>
 </odoo>

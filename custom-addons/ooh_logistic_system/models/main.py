@@ -211,7 +211,7 @@ class HrPayslipRun(models.Model):
     _description = "Tracking who created the record above"
 
     log_user_id=fields.Many2one('logistic.users',string="Created By")
-    company_id=fields.Many2one('res.company',string="Company",readonly=True)
+    company_id=fields.Many2one('res.company',string="Company")
     
 
 

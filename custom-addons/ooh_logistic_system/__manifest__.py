@@ -5,7 +5,7 @@
     'description': """This module will add a record to store student details""",
     'author': 'DevzKona',
     'category': 'Tools',
-    'depends': ['base', 'contacts', 'account', 'sale','stock'],
+    'depends': ['base', 'contacts','om_hr_payroll', 'account', 'sale','stock'],
     'license': 'AGPL-3',
     'data': [
         'security/security.xml',
