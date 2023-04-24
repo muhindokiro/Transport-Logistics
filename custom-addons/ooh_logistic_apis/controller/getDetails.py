@@ -10,6 +10,52 @@ _logger = logging.getLogger(__name__)
 
 
 class ValuesDetails(http.Controller):
+    @http.route('/get_batch_details', type='json', auth='public', cors='*', method=['POST'])
+    def get_batch_details(self, **kw):
+        values = {}
+        batchValues=[]
+        data = json.loads(request.httprequest.data)
+        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            # """get all account types"""
+            obj = request.env["hr.payslip"]
+            items = len(obj.sudo().search([('company_id.id', '=', verrification['company_id'][0])]))
+            batch = request.env["hr.payslip.run"].sudo().search([('company_id.id', '=', verrification['company_id'][0]),("id", '=', data['batch_id'])])
+            if batch:
+                values={
+                    "name":batch.name,
+                    "date_from":batch.date_start,
+                    "date_to":batch.date_end,
+                    "status":batch.state
+                }
+            # payslips = batch.slip_ids.search([("name","ilike",data["name"]),('company_id.id', '=', verrification['company_id'][0])],limit=data['limit'], offset=data['offset'])
+            for res in batch.slip_ids:
+                batchValues.append({
+                    "employee":res.employee_id.name,
+                    "basic":res.line_ids[0].total,
+                    "gross":res.line_ids[1].total,
+                    "net":res.line_ids[2].total,
+                    "status":res.state
+                })
+                # for rec in res.line_ids:
+                #         batchValues.update({rec.category_id.name:rec.total})
+            return {
+                "code": 200,
+                "status": "success",
+                "batch": values,
+                "batchValues":batchValues,
+                "total_items": items,
+                "items_per_page": data['limit'],
+                "message": "Payrol Batches"
+            }
+        else:
+            return {
+                "code": 403,
+                "status": "Failed",
+                "Message": "NOT AUTHORISED!"
+            }
+        
     @http.route('/contract_details', type='json', auth='public', cors='*', method=['POST'])
     def get_contract_details(self,**kw):
         values = []
@@ -29,6 +75,7 @@ class ValuesDetails(http.Controller):
                 "end":contract.date_end,
                 "struct":contract.struct_id.name,
                 "hra":contract.hra,
+                "hr_responsible_id":contract.hr_responsible_id.name,
                 "sacco_loan":contract.sacco_loan,
                 "sacco_saving":contract.sacco_saving,
                 "bank_loan":contract.bank_loan,
@@ -141,16 +188,17 @@ class ValuesDetails(http.Controller):
         if verrification['status']:
             # """get all account types"""
             customer = request.env["res.partner"].sudo().search([("company_id.id","=",verrification['company_id'][0]),("id","=",data['customer_id'])])
-            _logger.error(customer)
-            _logger.error("THE CUSTOMER TYPE INFORMATIONS!!!!!!11")
             cust_details={
-                "name":customer.name,
-                "email":customer.email,
-                "mobile":customer.phone,
-                "city":customer.city,
-                "vat":customer.vat,
-                "country":customer.country_id.name,
-                "type":customer.company_type,
+                "name":customer.name if customer.name else "",
+                "email":customer.email if customer.email else "",
+                "mobile":customer.phone if customer.phone else "",
+                "country_id":customer.country_id.id if customer.country_id else "",
+                "receivable_id":customer.property_account_receivable_id.id if customer.property_account_receivable_id else "",
+                "payable_id":customer.property_account_payable_id.id if customer.property_account_payable_id else "",
+                "city":customer.city if customer.city else "",
+                "vat":customer.vat if customer.vat else "",
+                "country":customer.country_id.name if customer.country_id else "",
+                "type":customer.company_type if customer.company_type else "",
             }
             [files.append({
             "name": x.name if x.name else "",
@@ -215,8 +263,6 @@ class ValuesDetails(http.Controller):
         data = json.loads(request.httprequest.data)
         # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
         verrification = verrifyAuth.validator.verify_token(data['token'])
-        _logger.error(verrification)
-        _logger.error("CHECKING THE RESPONSE@@@@@@@@@@@2")
         if verrification['status']:
             # """get all account types"""
             types = request.env["logistic.users"].sudo().search([('name', '!=', False),("company_id.id","=",verrification['company_id'][0]),("id","=",verrification['id'])])
@@ -224,6 +270,7 @@ class ValuesDetails(http.Controller):
             "name": x.name if x.name else "",
             "login": x.email if x.email else "",
             "mobile": x.mobile if x.mobile else "",
+            "state": x.state if x.state else "",
             'id': x.id
             })
              for x in types]

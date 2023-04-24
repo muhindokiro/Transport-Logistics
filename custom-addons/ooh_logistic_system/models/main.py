@@ -66,6 +66,7 @@ class OpenFile(models.Model):
     date = fields.Date(string="Date", default=datetime.now(), readonly=True, tracking=True)
     arr_date = fields.Date(string="Arrival Date", default=datetime.now(), tracking=True)
     dep_date = fields.Date(string="Departure Date", default=datetime.now(), tracking=True)
+    payment_date = fields.Date(string="Departure Date", default=datetime.now(), tracking=True)
     customer_id = fields.Many2one('res.partner', string="Client", tracking=True)
     journal_id = fields.Many2one('account.journal', string="Journal", required=True)
     country_id = fields.Many2one('res.country', string="Destination Country", related="customer_id.country_id")
@@ -170,7 +171,6 @@ class HrContract(models.Model):
     bank_loan=fields.Float(string="Bank Loan")
     sacco_loan=fields.Float(string="Sacco Loan")
     sacco_saving=fields.Float(string="Sacco Saving")
-
 class ResPartner(models.Model):
     _inherit = "res.partner"
     _description = "Tracking who created the record above"
@@ -183,6 +183,14 @@ class HrStructure(models.Model):
     _description = "Tracking who created the record above"
 
     log_user_id=fields.Many2one('logistic.users',string="Created By")
+    journal_id=fields.Many2one('account.journal',string='Journal')
+
+class HrPayslip(models.Model):
+    _inherit = "hr.payslip"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By")
+    journal_id=fields.Many2one('account.journal',string='Journal')
 
 class FleetVehicle(models.Model):
     _inherit = "fleet.vehicle"
@@ -196,6 +204,16 @@ class ProductCategory(models.Model):
 
     log_user_id=fields.Many2one('logistic.users',string="Created By")
     company_id=fields.Many2one('res.company',string="Company",readonly=True)
+
+
+class HrPayslipRun(models.Model):
+    _inherit = "hr.payslip.run"
+    _description = "Tracking who created the record above"
+
+    log_user_id=fields.Many2one('logistic.users',string="Created By")
+    company_id=fields.Many2one('res.company',string="Company")
+    
+
 
 class FleetServicesType(models.Model):
     _inherit = "fleet.service.type"

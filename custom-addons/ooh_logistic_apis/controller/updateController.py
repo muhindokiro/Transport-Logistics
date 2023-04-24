@@ -9,7 +9,47 @@ import string
 _logger = logging.getLogger(__name__)
 
 class UpdateDetails(http.Controller):
-
+    # """"ENDPOINT TO ALLOW READING OF JOURNl TYPES"""
+    @http.route('/update_contract', type='json', auth='public', cors='*', method=['POST'])
+    def update_contract(self,**kw):
+        values = []
+        data = json.loads(request.httprequest.data)
+        # """verrification of the token passed to the payload to make sure its valid!!!!!!!!!"""
+        verrification = verrifyAuth.validator.verify_token(data['token'])
+        if verrification['status']:
+            # """get all account types"""
+            contract = request.env["hr.contract"].sudo().search([('name', '!=', False),("company_id.id","=",verrification['company_id'][0]),("id","=",data['contract_id'])])
+            if contract:
+                contract.sudo().write({
+                    "id":contract.id,
+                    "name":data['name'],
+                    'employee_id':contract.id,
+                    'date_start':data['date_start'],
+                    'date_end':data['date_end'],
+                    'department_id':contract.department_id.id,
+                    'struct_id':data['struct_id'],
+                    'hr_responsible_id':contract.hr_responsible_id.id,
+                    'hra':data['hra'],
+                    'sacco_loan':data['sacco_loan'],
+                    'sacco_saving':data['sacco_saving'],
+                    'bank_loan':data['bank_loan'],
+                    'travel_allowance':data['travel_allowance'],
+                    'medical_allowance':data['medical_allowance'],
+                    'other_allowance':data['other_allowance'],
+                    'wage':data['wage'],
+                })
+            return {
+                "code": 200,
+                "status": "success",
+                "message": "You have successful updated contract information"
+            }
+        else:
+            return {
+                "code": 403,
+                "status": "Failed",
+                "Message": "NOT AUTHORISED!"
+            }
+        
     # """"ENDPOINT TO ALLOW READING OF JOURNl TYPES"""
     @http.route('/update_me', type='json', auth='public', cors='*', method=['POST'])
     def update_me(self,**kw):
@@ -81,17 +121,19 @@ class UpdateDetails(http.Controller):
             if employee:
                 employee.sudo().write({
                    "name":data['name'],
-                    "mobile_phone":data['mobile_phone'],
+                    "work_phone":data['work_phone'],
                     "employee_type":data['employee_type'],
                     "work_email":data['work_email'],
                     "department_id":data['department_id'],
                     "gender":data['gender'],
-                    "parent_id":data['parent_id'],
+                    "hr_responsible_id":data['hr_responsible_id'],
                     "country_id":data['country_id'],
                     "identification_id":data['identification_id'],
                     "passport_id":data['passport_id'],
                     'kra':data['kra'],
                     'huduma':data['huduma'],
+                    'marital':data['marital'],
+                    'nhif':data['nhif'],
                     'nssf':data['nssf'],
                     'job_title':data['job_title'],
                     "birthday":data['birthday'],
