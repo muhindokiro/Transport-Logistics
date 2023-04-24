@@ -13,7 +13,7 @@ class ResCompany(models.Model):
         ('draft', 'Draft'),
         ('active', 'Active'),
         ('expire', 'Expired')
-        ], 
+        ],
         default='draft', required=True, tracking=True)
 
     def create_admin(self):
@@ -28,6 +28,7 @@ class ResCompany(models.Model):
                 self.write({"state":"active"})
                 new_admin._prepare_otp_email_values()
         return True
+        
 class LogisticUsers(models.Model):
     _name = 'logistic.users'
     _description = "Model for storing logistic users"
@@ -45,7 +46,7 @@ class LogisticUsers(models.Model):
     state = fields.Selection([
         ('archived', 'Archived'),
         ('active', 'Active')
-        ], 
+        ],
         default='active', required=True, tracking=True)
 
     def _prepare_otp_email_values(self):
