@@ -1,6 +1,5 @@
 from odoo import models, fields, api,_
 
-
 class VehicleTrip(models.Model):
     _name = 'vehicle.trip'
     _description = "The trip management"

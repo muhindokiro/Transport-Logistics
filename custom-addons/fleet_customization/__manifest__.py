@@ -5,7 +5,7 @@
     'description': """This module will add a record to for fleet module""",
     'author': '@Muhindo-Kiro',
     'category': 'Tools',
-    'depends': ['base','hr','contacts','fleet'],
+    'depends': ['base', 'fleet'],
     'license': 'AGPL-3',
     'data': [
         'views/fleet_view.xml',
