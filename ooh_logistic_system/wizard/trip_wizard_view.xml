@@ -26,7 +26,6 @@
                                 <field name="date" />
                                 <field name="external_truck_number" attrs="{'invisible': [('type','=','internal')]}" />
                                 <field name="external_driver_name" attrs="{'invisible': [('type','=','internal')]}" />
-
                                 <field name="internal_turnboy" attrs="{'invisible': [('type','=','external')]}" />
                                 <field name="external_turnboy_mobile" attrs="{'invisible': [('type','=','internal')]}" />
                             </group>
