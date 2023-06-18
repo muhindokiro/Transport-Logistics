@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_logistic_management_module" name="Logistic"
-        web_icon="ooh_logistic_system,static/icon.png" />
+    <menuitem id="menu_logistic_management_module" name="Logistic" web_icon="ooh_logistic_system,static/icon.png" />
 
-    <menuitem id="view_home_account" name="Logistic" parent="menu_logistic_management_module"
-        action="ooh_logistic_system.action_new_file_view" sequence="0" />
+    <menuitem id="view_home_account" name="Logistic" parent="menu_logistic_management_module" action="ooh_logistic_system.action_new_file_view" sequence="0" />
 
-    <menuitem id="view_file_documents" name="Documents" parent="menu_logistic_management_module"
-        action="ooh_logistic_system.action_new_file_documents_view" sequence="1" />
+    <menuitem id="view_file_documents" name="Documents" parent="menu_logistic_management_module" action="ooh_logistic_system.action_new_file_documents_view" sequence="1" />
 
-    <menuitem id="config_management_menu" name="Configuration"
-        parent="menu_logistic_management_module" sequence="50" />
-    <menuitem id="bond_management_menu" name="Bond" parent="config_management_menu"
-        action="ooh_logistic_system.action_bond_view" sequence="1" />
-    <menuitem id="container_management_menu" name="Container" parent="config_management_menu"
-        action="ooh_logistic_system.action_container_details_view" sequence="2" />
-    <menuitem id="shipping_line_management_menu" name="Shipping Line"
-        parent="config_management_menu" action="ooh_logistic_system.action_shipping_line_view"
-        sequence="3" />
-    <menuitem id="trip_management_view" name="Trip Management"
-        parent="ooh_logistic_system.menu_logistic_management_module"
-        action="ooh_logistic_system.action_trip_management_view"
-        sequence="5" />
+    <menuitem id="config_management_menu" name="Configuration" parent="menu_logistic_management_module" sequence="50" />
+    <menuitem id="bond_management_menu" name="Bond" parent="config_management_menu" action="ooh_logistic_system.action_bond_view" sequence="1" />
+    <menuitem id="shipping_line_management_menu" name="Shipping Line" parent="config_management_menu" action="ooh_logistic_system.action_shipping_line_view" sequence="3" />
+    <menuitem id="trip_management_view" name="Trip Management" parent="ooh_logistic_system.menu_logistic_management_module" action="ooh_logistic_system.action_trip_management_view" sequence="5" />
 </odoo>
 <!-- groups="ooh_logistic_system.logistics_manager_admin"  -->

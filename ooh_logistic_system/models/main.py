@@ -192,7 +192,8 @@ class OpenFileLine(models.Model):
     #         self.amount = self.items_qty * self.price_unit
 
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
-    container_id = fields.Many2one("container.details",string="Container Number", tracking=True)
+    container_id = fields.Many2one(string="Container Number", tracking=True)
+    shipping_line = fields.Char(string='Shipping Line',required=True, tracking=True)
     transporter = fields.Many2one(
         "res.partner",
         string="Transporter"
@@ -209,24 +210,6 @@ class OpenFileLine(models.Model):
     # price_unit = fields.Float(string="Price")
 
 
-class ContainerDetailsLine(models.Model):
-    _name = "container.details.line"
-    _description = "Container details and dimensions"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    
-    container_file = fields.Many2one("open.file")
-    container_id = fields.Many2one("container.details",string="Container Number", tracking=True)
-    truck_no = fields.Char(string="Truck Number", tracking=True)
-    transporter = fields.Many2one(
-        "res.partner",
-        string="Transporter"
-    )
-    loading_date = fields.Date(string="Loading Date", default=datetime.now(), tracking=True)
-    driver = fields.Many2one(
-        "res.partner",
-        string="Driver"
-    )
-    return_date = fields.Date(string="Container Return Date", default=datetime.now(), tracking=True)  
       
 class ContainerInterchangeForm(models.Model):
     _name = "container.interchange.line"
