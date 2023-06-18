@@ -27,7 +27,6 @@
                                     attrs="{'invisible': [('type','=','internal')]}" />
                                 <field name="external_driver_name"
                                     attrs="{'invisible': [('type','=','internal')]}" />
-
                                 <field name="internal_turnboy"
                                     attrs="{'invisible': [('type','=','external')]}" />
                                 <field name="external_turnboy_mobile"
