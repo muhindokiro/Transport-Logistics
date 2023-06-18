@@ -150,7 +150,7 @@
                         <page string="Container Details">
                             <field name="cont_details"
                                 context="{'form_view_ref' : 'ooh_logistic_system.container_details_form_view'}">
-                                <tree string="Container Details" editable="bottom">
+                                <tree string="Container Details">
                                     <field name="container_id" />
                                     <field name="transporter" />
                                     <field name="truck_no" />
@@ -163,7 +163,7 @@
                         <page string="Container Interchange">
                             <field name="cont_interchange"
                                 context="{'form_view_ref' : 'ooh_logistic_system.container_interchange_form_view'}">
-                                <tree string="Container Interchange" editable="bottom">
+                                <tree string="Container Interchange">
                                     <field name="container_no" />
                                     <field name="file_ref" />
                                     <field name="cont_arrival_date" />

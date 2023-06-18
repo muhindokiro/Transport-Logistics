@@ -10,7 +10,7 @@
                 <tree string="Bond Number">
 
                     <field name="name" />
-                    <field name="bond_amount"/>
+                    <field name="bond_amount" />
 
                 </tree>
             </field>
@@ -22,19 +22,21 @@
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
                 <form string="Bond Number">
-
+                    <header>
+                        <field name="state" widget="statusbar" />
+                        <button name="validate_bond" string="Validate Bond" states="draft"
+                            class="btn-primary" type="object" />
+                    </header>
                     <sheet>
-
                         <group>
-
                             <group>
-                                <field name="name"/>
-                                <field name="bond_amount"/>
-
+                                <field name="name" />
+                                <field name="bond_amount" />
+                                <field name="purchase_date" />
+                                <field name="expiry_date" />
+                                <field name="validity_period" />
                             </group>
-
                         </group>
-
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" />
