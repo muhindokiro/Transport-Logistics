@@ -186,21 +186,27 @@ class OpenFileLine(models.Model):
     _description = "The Properties of the file for invoice creation"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    @api.onchange("price_unit", "items_qty")
-    def _get_total_price(self):
-        if self:
-            self.amount = self.items_qty * self.price_unit
+    # @api.onchange("price_unit", "items_qty")
+    # def _get_total_price(self):
+    #     if self:
+    #         self.amount = self.items_qty * self.price_unit
 
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
-    name = fields.Char(string="Container Number", tracking=True)
-    account_id = fields.Many2one("account.account", string="Account", required=True)
-    amount = fields.Float(
-        string="Total Price", readonly=True, compute="_get_total_price"
+    container_id = fields.Many2one("container.details",string="Container Number", tracking=True)
+    transporter = fields.Many2one(
+        "res.partner",
+        string="Transporter"
     )
+    account_id = fields.Many2one("account.account", string="Account", required=True)
+    loading_date = fields.Date(string="Loading Date", default=datetime.now(), tracking=True)
+    return_date = fields.Date(string="Return Date", default=datetime.now(), tracking=True)
+    # amount = fields.Float(
+    #     string="Total Price", readonly=True, compute="_get_total_price"
+    # )
     assoc_file_line = fields.Many2one("open.file", tracking=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
-    items_qty = fields.Integer(string="Quantity", default=1)
-    price_unit = fields.Float(string="Price")
+    # items_qty = fields.Integer(string="Quantity", default=1)
+    # price_unit = fields.Float(string="Price")
 
 
 class ContainerDetailsLine(models.Model):
