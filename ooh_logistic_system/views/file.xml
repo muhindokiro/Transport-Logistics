@@ -148,29 +148,29 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="File Lines">
+                        <page string="Container Details">
                             <field name="file_lines" context="{'form_view_ref' : 'ooh_logistic_system.add_product_form_view'}">
-                                <tree string="File Lines" editable="bottom">
+                                <tree string="Container Details" editable="bottom">
                                     <field name="product_id" />
-                                    <field name="name" />
+                                    <field name="container_id" />
+                                    <field name="transporter" />
+                                    <field name="loading_date" />
                                     <field name="account_id" />
-                                    <field name="items_qty" />
-                                    <field name="price_unit" />
-                                    <field name="amount" />
+                                    <field name="return_date" />
 
                                 </tree>
                             </field>
                         </page>
-                        <page string="Related Documents">
+                        <page string="Chargeable Items">
                             <field name="rela_docs">
-                                <tree string="Related Documents" editable="bottom">
+                                <tree string="Chargeable Items" editable="bottom">
                                     <field name="date" />
                                     <field name="name" />
                                     <field name="document" />
                                 </tree>
                             </field>
                         </page>
-                        <page string="Container Details">
+                        <!-- <page string="Container Details">
                             <field name="cont_details" context="{'form_view_ref' : 'ooh_logistic_system.container_details_form_view'}">
                                 <tree string="Container Details" editable="bottom">
                                     <field name="container_id" />
@@ -181,7 +181,7 @@
                                     <field name="return_date" />
                                 </tree>
                             </field>
-                        </page>
+                        </page> -->
                         <page string="Container Interchange">
                             <field name="cont_interchange" context="{'form_view_ref' : 'ooh_logistic_system.container_interchange_form_view'}">
                                 <tree string="Container Interchange" editable="bottom">
@@ -223,9 +223,9 @@
                     <group>
                         <group>
                             <field name="product_id" />
-                            <field name="name" />
+                            <field name="container_id" />
                             <field name="account_id" />
-                            <field name="amount" />
+                            <field name="transporter" />
                         </group>
                     </group>
                 </sheet>
