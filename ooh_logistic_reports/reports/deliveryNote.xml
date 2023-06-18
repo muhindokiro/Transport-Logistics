@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="delivery_note_view_reporting">
+        <div class="page">
+            <div style="position:absolute;width:100%;" border="0" cellpadding="0"
+                cellspacing="0">
+                <t t-foreach="docs" t-as="doc">
+                    <div style="font-size:18px;font-weight:bold;text-align:center;color:blue;">
+                        <h2>DELIVERY NOTE</h2>
+                    </div>
+                    <div
+                        style="width:98%;height:250px;border:1px solid blue;border-radius:10px;margin-top:20px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <strong class="o_kanban_record_title">
+                                    <span>
+                                        DESCRIPTION OF GOODS
+                                    </span>
+                                </strong>
+                                <strong class="o_kanban_record_subtitle float-end">
+                                    <span class="text-end">
+                                        DATE TB HERE
+                                    </span>
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div
+                        style="width:98%;height:250px;border:1px solid blue;border-radius:10px;margin-top:20px;">
+                    </div>
+                    <div
+                        style="width:98%;height:250px;border:1px solid blue;border-radius:10px;margin-top:20px;">
+                    </div>
+                </t>
+            </div>
+            <br />
+        </div>
+    </template>
+    <template id="custom_delivery_note_reporting">
+        <t t-call="web.html_container">
+            <t t-call="ooh_logistic_reports.deliver_note_reports_header">
+            </t>
+            <t t-call="ooh_logistic_reports.delivery_note_view_reporting">
+            </t>
+
+        </t>
+    </template>
+</odoo>

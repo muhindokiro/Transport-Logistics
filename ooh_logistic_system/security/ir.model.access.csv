@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ooh_logistic_system.access_open_file,access_open_file,ooh_logistic_system.model_open_file,base.group_user,1,1,1,0
+ooh_logistic_system.access_open_file_line,access_open_file_line,ooh_logistic_system.model_open_file_line,base.group_user,1,1,1,0
+ooh_logistic_system.access_open_file_document,access_open_file_document,ooh_logistic_system.model_open_file_document,base.group_user,1,1,1,0
+ooh_logistic_system.access_bond_number,access_bond_number,ooh_logistic_system.model_bond_number,base.group_user,1,1,1,0
+ooh_logistic_system.access_container_details,access_container_details,ooh_logistic_system.model_container_details,base.group_user,1,1,1,0
+ooh_logistic_system.access_shipping_line,access_shipping_line,ooh_logistic_system.model_shipping_line,base.group_user,1,1,1,0
+ooh_logistic_system.access_container_details_line,access_container_details_line,ooh_logistic_system.model_container_details_line,base.group_user,1,1,1,0
+ooh_logistic_system.access_container_interchange_line,access_container_interchange_line,ooh_logistic_system.model_container_interchange_line,base.group_user,1,1,1,0
+
+
+

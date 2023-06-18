@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_vehicle_trip_tree" model="ir.ui.view">
+            <field name="name">vehicle.trip.tree</field>
+            <field name="model">vehicle.trip</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Trips">
+
+                    <field name="departure_date" />
+                    <field name="return_date" />
+                    <field name="total_cost" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_vehicle_trip_form" model="ir.ui.view">
+            <field name="name">vehicle.trip.tree</field>
+            <field name="model">vehicle.trip</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Vehicle Trip">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="Draft,Confirmed,Cancelled,Progress,Finished,Paid"/>
+                        <button name="trip_report" type="object" string="Print" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="related_file" required="1"/>
+                                <field name="partner_id" required="1"/>
+                                <field name="departure_date" required="1"/>
+                                <field name="return_date" required="1"/>
+                            </group>
+                            <group>
+                                <field name="type" required="1" />
+
+                                <!-- External Transport Details -->
+                                <field name="external_driver" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+                                <field name="external_truck" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+                                <field name="external_turnboy" attrs="{'invisible': [('type', '!=', 'external')]}"/>
+
+                                <!-- External Transport Details -->
+                                <field name="internal_driver" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+                                <field name="internal_truck" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+                                <field name="internal_turnboy" attrs="{'invisible': [('type', '!=', 'internal')]}"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Transport Expense" attrs="{'invisible': [('type', '!=', 'internal')]}">
+                                <field name="trip_lines" nolabel="1" attrs="{'readonly': [('state','!=','Draft')]}" context="{'form_view_ref' : 'trip_management.create_trip_expense_form'}">
+                                    <tree string="Vehicle Trip Lines">
+
+                                        <field name="vehicle_id"/>
+                                        <field name="purchaser_id"/>
+                                        <field name="service_type_id"/>
+                                        <field name="description"/>
+                                        <field name="amount"/>
+                                        <field name="date"/>
+                                        <field name="vendor_id"/>
+                                        <field name="odometer"/>
+
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="trip_total">
+                                    <field name="total_cost" widget='monetary'/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </page>
+
+                        </notebook>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

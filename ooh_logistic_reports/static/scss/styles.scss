@@ -1,0 +1,161 @@
+//---THESE ARE THE HEADER STYLES-----------//
+.viewC {
+    width: 100%;
+    padding: 20px;
+}
+
+.fl-left {
+    float: left;
+    width: 50%;
+    border: none;
+}
+
+.fl-right {
+    float: right;
+    width: 50%;
+    border: none;
+}
+
+.sltech-receipt-orderlines-details {
+    margin-bottom: 20px;
+}
+
+//THESE ARE THE STYLES BELLOW THE HEADER//
+#container {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.page {
+    background-color: red;
+}
+
+#container tr td {
+    border: 2px solid #00004c;
+    padding: 10px;
+}
+
+#container tr th {
+    border: 1px solid white;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+#container tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.dataTable {
+    border: 3px solid #00004c;
+}
+
+#container th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding: 30px;
+    text-align: left;
+    background-color: #00004c;
+    color: white;
+}
+
+#mini-container {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 98%;
+}
+
+#mini-container td {
+    border: 2px solid #00004c;
+    padding: 8px;
+}
+
+#mini-container th {
+    border: 2px solid #00004c;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+#mini-container tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#mini-container th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding: 15px;
+    text-align: left;
+    background-color: white;
+    color: #00004c;
+}
+
+.the-view {
+    display: flex;
+    flex-direction: 'row';
+    width: 100%;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+
+.approvals {
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    margin-top: 40px;
+    justify-content: space-between;
+}
+
+.view {
+    float: left;
+}
+
+.right-view {
+    float: right;
+    width: 450px;
+    height: 80px !important;
+}
+
+.text {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.inView {
+    margin-top: 20px;
+}
+
+.inView div {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(57, 55, 55);
+}
+
+.row-view {
+    margin-top: 55px;
+    font-size: 18px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin-top: 40px;
+    justify-content: space-between;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.the-right {
+    float: right;
+    width: 50%;
+    background: 'green'
+}
+
+.the-left {
+    float: left;
+    width: 50%;
+    background: 'red'
+}
+
+.subtTotal {
+    padding: 10px;
+}

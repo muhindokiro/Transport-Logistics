@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="main_logistics_group">
+        <field name="name">Logistics </field>
+        <field name="description">Logistics</field>
+        <field name="sequence">20</field>
+        </record>
+
+        <record id="dashboard_manager_admin" model="res.groups">
+            <field name="name">DASHBOARD MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="files_manager_admin" model="res.groups">
+            <field name="name">FILES MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="trips_manager_admin" model="res.groups">
+            <field name="name">TRIPS/FLEET MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="customer_manager_admin" model="res.groups">
+            <field name="name">CUSTOMERS MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="hr_manager_admin" model="res.groups">
+            <field name="name">HR MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="finance_manager_admin" model="res.groups">
+            <field name="name">ACCOUNTING MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="store_manager_admin" model="res.groups">
+            <field name="name">STORE MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="logistics_manager_admin" model="res.groups">
+            <field name="name">ADMINISTRATOR</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+        <record id="logistics_manager_admin" model="res.groups">
+            <field name="name">REPORTS MANAGER</field>
+            <field name="category_id" ref="main_logistics_group"/>
+        </record>
+</odoo>

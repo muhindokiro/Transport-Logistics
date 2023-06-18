@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="deliver_note_reports_header">
+        <div class="header first-page"
+            style="position:absolute;width:100%;margin-bottom:20px;margin-top:-20px;">
+            <t t-foreach="docs" t-as="doc">
+                <table class='sltech-receipt-orderlines-details'
+                    style="display:flex;justify-content:space-between;width:100%;border-style : hidden!important;">
+                    <tr class="viewC">
+                        <td
+                            style="height:100px;width:35%;float:left;display:flex;text-align: center;">
+                            <img class="img-fluid"
+                                t-attf-src="data:image/*;base64,{{doc.company_id.logo}}"
+                                style="height:150%;width:150px;" />
+                        </td>
+                        <td
+                            style="height:100px;width:64%;float:right;display:flex;text-align:center;font-size:18px;font-weight:bold;">
+                            <span t-field="doc.company_id.name" />
+                            <span t-field="doc.company_id.street" />
+                            <br />
+                            <span t-field="doc.company_id.street2" />
+                            <br />
+                            <span t-field="doc.company_id.city" />
+                            <br />
+                            <span t-field="doc.company_id.state_id.name" />
+                            <br />
+                            <span t-field="doc.company_id.phone" />
+                            <br />
+                            <span t-field="doc.company_id.website" />
+
+                        </td>
+
+                    </tr>
+                </table>
+            </t>
+        </div>
+        <div class="footer text-center">
+            <div style="border:1px solid black;width:100%;"></div>
+
+            <center>
+                <h5 style="color:black;">
+                    <b>
+                        <t t-esc="doc.company_id.name" /> | <t t-esc="doc.company_id.street" /> | <t
+                            t-esc="doc.company_id.street2" />, <t t-esc="doc.company_id.city" />, <t
+                            t-esc="doc.company_id.state_id.name" />, <t t-esc="doc.company_id.phone" />
+                | <t
+                            t-esc="doc.company_id.email" /> | <t t-esc="doc.company_id.website" />
+                    </b>
+                </h5>
+<span
+                    class="page" /> / <span
+                    class="topage" />
+            </center>
+        </div>
+    </template>
+</odoo>

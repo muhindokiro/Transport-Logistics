@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_new_file_view" model="ir.actions.act_window">
+        <field name="name">File Management</field>
+        <field name="res_model">open.file</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    CREATE A NEW FILE FOR A NEW OPPORTUNITY
+            </p>
+        </field>
+    </record>
+    <record id="action_new_file_documents_view" model="ir.actions.act_window">
+        <field name="name">Documents Management</field>
+        <field name="res_model">open.file.document</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    UPLOAD A DOCUMENT
+            </p>
+        </field>
+    </record>
+    <record id="action_new_file_lines_view" model="ir.actions.act_window">
+        <field name="name">File Lines Management</field>
+        <field name="res_model">open.file.line</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    CREATE A NEW FILE FOR A NEW OPPORTUNITY
+            </p>
+        </field>
+    </record>
+
+    <record id="action_bond_view" model="ir.actions.act_window">
+        <field name="name">Bond Management</field>
+        <field name="res_model">bond.number</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    CREATE A BOND
+            </p>
+        </field>
+    </record>
+
+    <record id="action_container_details_view" model="ir.actions.act_window">
+        <field name="name">Container Management</field>
+        <field name="res_model">container.details</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    CREATE A CONTAINER
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_line_view" model="ir.actions.act_window">
+        <field name="name">Shipping Line Management</field>
+        <field name="res_model">shipping.line</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    CREATE A SHIPPING LINE
+            </p>
+        </field>
+    </record>
+</odoo>

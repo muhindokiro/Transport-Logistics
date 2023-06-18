@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="open_file_kanban_view" model="ir.ui.view">
+        <field name="name">open.file.kanban</field>
+        <field name="model">open.file</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban">
+                <field name="id" />
+                <field name="name" />
+                <field name="customer_id" />
+                <field name="date" />
+                <field name="state" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img alt="Avatar" t-att-src="kanban_image('../static/src/container.jpg', 'image_medium')" />
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name" />
+                                </strong>
+                                <div t-if="record.customer_id.value">
+                                    <t t-esc="record.customer_id.value" />
+                                </div>
+                                <div t-if="record.date.value">
+                                    <t t-esc="record.date.value" />
+                                </div>
+                                <div t-if="record.state.value">
+                                    <t t-esc="record.state.value" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record> -->
+
+    <record id="view_open_file_kanban" model="ir.ui.view">
+        <field name="name">open.file.kanban</field>
+        <field name="model">open.file</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name" />
+                <field name="customer_id" />
+                <field name="date" />
+                <field name="bill_ref" />
+                <field name="inv_ref" />
+                <field name="state" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <t t-esc="record.name.value" />
+                                        </span>
+                                    </strong>
+                                    <strong class="o_kanban_record_subtitle float-end">
+                                        <span class="text-end">
+                                            <t t-esc="record.customer_id.value" />
+                                        </span>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row mt8">
+                                <div class="col-6 text-muted">
+                                    <span>
+                                        <t t-esc="record.bill_ref.value" />
+                                    </span>
+                                </div>
+                                <div class="col-6 text-muted">
+                                    <span class="float-end text-end">
+                                        <t t-esc="record.inv_ref.value" />
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mt8">
+                                <div class="col-6 text-muted">
+                                    <span>
+                                        <t t-esc="record.date.value" />
+                                    </span>
+                                </div>
+                                <div class="col-6 text-muted">
+                                    <span>
+                                        <field name="state" widget="label_selection" options="{'classes': 
+                                            {
+                                            'draft': 'warning', 
+                                            'active': 'success', 
+                                            }}" />
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_open_file_form" model="ir.ui.view">
+        <field name="name">open.file.form</field>
+        <field name="model">open.file</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,cancel,invoiced" />
+                    <button name="create_invoice" string="Create Invoice" states="confirm" class="btn-primary" type="object" />
+                    <button name="action_confirm" string="Confirm File Information" states="draft" class="btn-primary" type="object" />
+
+                    <button name="action_draft" string="Reset to draft" states="confirm" class="btn-primary" type="object" />
+                </header>
+                <sheet>
+                    <div name="button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="get_associated_invoice" icon="fa-credit-card">
+                            <field string="Invoice" name="invoice_count" widget="statinfo" />
+                        </button>
+                        <button class="oe_stat_button" type="object" name="get_associated_trips" icon="fa-truck">
+                            <span>Trip</span>
+                        </button>
+                    </div>
+
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="customer_id" widget="contact" options="{'fields': ['address', 'name', 'phone']}" />
+                            <field name="bond_number" />
+                            <field name="vessel" />
+                            <field name="manifest_no" />
+                            <field name="shipping_line" />
+                            <field name="contact_person" />
+                            <field name="invoice_payment_term_id" />
+                        </group>
+                        <group>
+                            <field name="date" />
+                            <field name="bill_ref" />
+                            <field name="inv_ref" />
+                            <field name="journal_id" />
+                            <field name="company_id" />
+                            <field name="remarks" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="File Lines">
+                            <field name="file_lines" context="{'form_view_ref' : 'ooh_logistic_system.add_product_form_view'}">
+                                <tree string="File Lines" editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="name" />
+                                    <field name="account_id" />
+                                    <field name="items_qty" />
+                                    <field name="price_unit" />
+                                    <field name="amount" />
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Related Documents">
+                            <field name="rela_docs">
+                                <tree string="Related Documents" editable="bottom">
+                                    <field name="date" />
+                                    <field name="name" />
+                                    <field name="document" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Container Details">
+                            <field name="cont_details" context="{'form_view_ref' : 'ooh_logistic_system.container_details_form_view'}">
+                                <tree string="Container Details" editable="bottom">
+                                    <field name="container_id" />
+                                    <field name="transporter" />
+                                    <field name="truck_no" />
+                                    <field name="loading_date" />
+                                    <field name="driver" />
+                                    <field name="return_date" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Container Interchange">
+                            <field name="cont_interchange" context="{'form_view_ref' : 'ooh_logistic_system.container_interchange_form_view'}">
+                                <tree string="Container Interchange" editable="bottom">
+                                    <field name="container_no" />
+                                    <field name="file_ref" />
+                                    <field name="cont_arrival_date" />
+                                    <field name="cont_loading_date" />
+                                    <field name="interchange_no" />
+                                    <field name="interchange_depot" />
+                                    <field name="guarantee_by" />
+                                    <field name="expected_return_date" />
+                                    <field name="actual_return_date" />
+                                    <field name="interchange_rcvd_date" />
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="account_total">
+                        <field name="account_total" widget='monetary' />
+                    </group>
+                    <div class="oe_clear" />
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="add_product_form_view" model="ir.ui.view">
+        <field name="name">open.file.line.form</field>
+        <field name="model">open.file.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="account_id" />
+                            <field name="amount" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="container_details_form_view" model="ir.ui.view">
+        <field name="name">container.details.line.form</field>
+        <field name="model">container.details.line</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="container_id" />
+                            <field name="transporter" />
+                            <field name="truck_no" />
+                        </group>
+                        <group>
+                            <field name="loading_date" />
+                            <field name="driver" />
+                            <field name="return_date" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="container_interchange_form_view" model="ir.ui.view">
+        <field name="name">container.interchange.line.form</field>
+        <field name="model">container.interchange.line</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="container_no" />
+                            <field name="file_ref" />
+                            <field name="cont_arrival_date" />
+                            <field name="cont_loading_date" />
+                            <field name="interchange_no" />
+                        </group>
+                        <group>
+                            <field name="interchange_depot" />
+                            <field name="guarantee_by" />
+                            <field name="expected_return_date" />
+                            <field name="actual_return_date" />
+                            <field name="interchange_rcvd_date" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

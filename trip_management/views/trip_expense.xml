@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- <record id="create_trip_expense_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.log.services.view</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="arch" type="xml">
+            <field name="description" position="before">
+                <field name="trip_expenses" />
+            </field>
+        </field>
+    </record> -->
+
+    <record id="action_trip_expense_form" model="ir.actions.act_window">
+        <field name="name">Add Trip Expense</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.vehicle.log.services</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="create_trip_expense_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

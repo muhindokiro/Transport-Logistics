@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_bond_number_tree" model="ir.ui.view">
+            <field name="name">bond.number.tree</field>
+            <field name="model">bond.number</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Bond Number">
+
+                    <field name="name" />
+                    <field name="bond_amount"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_bond_number_form" model="ir.ui.view">
+            <field name="name">bond.number.form</field>
+            <field name="model">bond.number</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Bond Number">
+
+                    <sheet>
+
+                        <group>
+
+                            <group>
+                                <field name="name"/>
+                                <field name="bond_amount"/>
+
+                            </group>
+
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
