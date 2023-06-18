@@ -11,6 +11,9 @@
 
                     <field name="name" />
                     <field name="bond_amount"/>
+                    <field name="purchase_date" />
+                    <field name="bond_duration"/>
+                    <field name="expiry_date"/>
 
                 </tree>
             </field>
@@ -22,6 +25,15 @@
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
                 <form string="Bond Number">
+                    <header>
+
+                        <button name="submit_to_manager" string="Submit Bond" states="draft" class="btn-primary" type="object" />
+                        <button name="action_confirm" string="Activate Bond" states="active" class="btn-primary" type="object" />
+                        <button name="action_cancel" string="Cancel Bond" states="expired" class="btn-primary" type="object" />
+
+                        <field name="state" widget="statusbar" readonly="1" options="{'clickable': False}" />
+
+                    </header>
 
                     <sheet>
 
@@ -30,12 +42,18 @@
                             <group>
                                 <field name="name"/>
                                 <field name="bond_amount"/>
+                            </group>
 
+                            <group>
+                                <field name="purchase_date"/>
+                                <field name="bond_duration"/>
+                                <field name="expiry_date"/>
                             </group>
 
                         </group>
 
                     </sheet>
+
                     <div class="oe_chatter">
                         <field name="message_follower_ids" />
                         <field name="activity_ids" />
