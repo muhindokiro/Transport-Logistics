@@ -8,6 +8,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
+
         <record id="view_trip_transient_custom_form" model="ir.ui.view">
             <field name="name">trip.management.vehicle.form</field>
             <field name="model">trip.management.vehicle</field>
@@ -23,27 +24,19 @@
                             <group>
                                 <field name="type" />
                                 <field name="date" />
-                                <field name="external_truck_number"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
-                                <field name="external_driver_name"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_truck_number" attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_driver_name" attrs="{'invisible': [('type','=','internal')]}" />
 
-                                <field name="internal_turnboy"
-                                    attrs="{'invisible': [('type','=','external')]}" />
-                                <field name="external_turnboy_mobile"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="internal_turnboy" attrs="{'invisible': [('type','=','external')]}" />
+                                <field name="external_turnboy_mobile" attrs="{'invisible': [('type','=','internal')]}" />
                             </group>
                             <group>
                                 <field name="partner_id" />
                                 <field name="file_ids" />
-                                <field name="internal_driver"
-                                    attrs="{'invisible': [('type','=','external')]}" />
-                                <field name="internal_truck"
-                                    attrs="{'invisible': [('type','=','external')]}" />
-                                <field name="external_driver_mobile"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
-                                <field name="external_turnboy_name"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="internal_driver" attrs="{'invisible': [('type','=','external')]}" />
+                                <field name="internal_truck" attrs="{'invisible': [('type','=','external')]}" />
+                                <field name="external_driver_mobile" attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_turnboy_name" attrs="{'invisible': [('type','=','internal')]}" />
                             </group>
                         </group>
                     </sheet>
@@ -91,8 +84,7 @@
                                     </div>
                                     <div class="col-6 text-muted">
                                         <span>
-                                            <field name="state" widget="label_selection"
-                                                options="{'classes': 
+                                            <field name="state" widget="label_selection" options="{'classes': 
                                             {
                                             'draft': 'danger', 
                                             'External': 'warning', 

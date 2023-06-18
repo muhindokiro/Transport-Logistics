@@ -12,7 +12,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class TripManager(models.Model):
-    
+   
     _name = "trip.management.vehicle"
     _description = "Transporter Management"
 

@@ -21,7 +21,7 @@ class BondNumber(models.Model):
    
     name = fields.Char(string='Bond Number',required=True)
     bond_amount = fields.Integer(string='Bond Amount',required=True, tracking=True)
-    bond_duration = fields.Char(string='Bond Duration',required=True, tracking=True, readonly=True)
+    bond_duration = fields.Char(string='Bond Duration',required=True, tracking=True,readonly=True, default='1 year')
     purchase_date = fields.Date(string="Purchase Date", tracking=True)
     expiry_date = fields.Date(string="Expiry Date", compute='_compute_expiry_date', readonly=True, tracking=True)
     state = fields.Selection(
