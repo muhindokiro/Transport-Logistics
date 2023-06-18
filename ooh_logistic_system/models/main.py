@@ -97,7 +97,7 @@ class OpenFile(models.Model):
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
     rela_docs = fields.One2many("open.file.document", "assoc_file")
     file_lines = fields.One2many("open.file.line", "assoc_file_line")
-    cont_details = fields.One2many("container_file")
+    # cont_details = fields.One2many("container.details.line", "container_file")
     cont_interchange = fields.One2many("container.interchange.line", "interchange_file")
     invoice_payment_term_id = fields.Many2one("account.payment.term", required=True)
     account_total = fields.Float(
@@ -208,7 +208,7 @@ class ContainerInterchangeForm(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     interchange_file = fields.Many2one("open.file")
-    container_no = fields.Many2one("container.details",string="Container Number", tracking=True)
+    container_no = fields.Many2one(string="Container Number", tracking=True)
     interchange_no = fields.Char(string="Interchange No.", tracking=True)
     interchange_depot = fields.Char(string="Interchange Depot", tracking=True)
     guarantee_by = fields.Many2one(

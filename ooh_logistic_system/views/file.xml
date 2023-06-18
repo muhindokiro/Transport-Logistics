@@ -199,30 +199,6 @@
         </field>
     </record>
 
-    <record id="container_details_form_view" model="ir.ui.view">
-        <field name="name">container.details.line.form</field>
-        <field name="model">container.details.line</field>
-        <field name="priority" eval="1" />
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <group>
-                            <field name="container_id" />
-                            <field name="transporter" />
-                            <field name="truck_no" />
-                        </group>
-                        <group>
-                            <field name="loading_date" />
-                            <field name="driver" />
-                            <field name="return_date" />
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <record id="container_interchange_form_view" model="ir.ui.view">
         <field name="name">container.interchange.line.form</field>
         <field name="model">container.interchange.line</field>

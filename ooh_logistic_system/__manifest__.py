@@ -16,7 +16,6 @@
         'views/menu_items.xml',
         'views/file.xml',
         'views/bond.xml',
-        'views/container.xml',
         'views/shipping_line.xml',
         'views/documents.xml',
         'wizard/trip_wizard_view.xml'
