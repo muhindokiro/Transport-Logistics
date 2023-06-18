@@ -122,7 +122,7 @@
                         <page string="Container Details">
                             <field name="file_lines"
                                 context="{'form_view_ref' : 'ooh_logistic_system.add_product_form_view'}">
-                                <tree string="Container Details">
+                                <tree string="Container Details" editable="bottom">
                                     <field name="product_id" />
                                     <field name="container_id" />
                                     <field name="transporter" />

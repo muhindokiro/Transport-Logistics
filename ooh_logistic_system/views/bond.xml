@@ -10,21 +10,11 @@
                 <tree string="Bond Number">
 
                     <field name="name" />
-                    <
-                    <
-                    <
-                    <
-                    <
-                    <
-                    < HEAD
                     <field name="bond_amount" />
-                    =======
                     <field name="bond_amount" />
                     <field name="purchase_date" />
                     <field name="bond_duration" />
                     <field name="expiry_date" />
-                    >>>>>>> dac2afc64c26b8860a07b3dfb8c2ff32eafde17c
-
                 </tree>
             </field>
         </record>
