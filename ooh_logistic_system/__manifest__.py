@@ -8,6 +8,7 @@
     'depends': ['base', 'contacts', 'account', 'sale', 'stock'],
     'license': 'AGPL-3',
     'data': [
+        'security/ir.model.access.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
@@ -18,7 +19,7 @@
         'views/container.xml',
         'views/shipping_line.xml',
         'views/documents.xml',
-        # 'views/action_print.xml'
+        'wizard/trip_wizard_view.xml'
     ],
     'demo': [],
     'assets': {

@@ -87,19 +87,14 @@ class OpenFile(models.Model):
         tracking=True,
         required=True,
     )
-    # arr_date = fields.Date(string="Arrival Date", default=datetime.now(), tracking=True)
-    # dep_date = fields.Date(
-    #     string="Departure Date", default=datetime.now(), tracking=True
-    # )
     payment_date = fields.Date(
         string="Departure Date", default=datetime.now(), tracking=True
     )
-    # color = fields.Integer("Color", default=_get_default_color, tracking=True)
+    is_transport=fields.Boolean(string="Is Transport", tracking=True)
+
+    color = fields.Integer("Color", default=_get_default_color, tracking=True)
     customer_id = fields.Many2one("res.partner", string="Client", tracking=True)
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
-    # return_date = fields.Date(
-    #     string="Container Return Date", default=datetime.now(), tracking=True
-    # )
     rela_docs = fields.One2many("open.file.document", "assoc_file")
     file_lines = fields.One2many("open.file.line", "assoc_file_line")
     cont_details = fields.One2many("container.details.line", "container_file")
@@ -123,7 +118,7 @@ class OpenFile(models.Model):
     remarks = fields.Char(string="Remarks", tracking=True)
     bond_number = fields.Many2one("bond.number", string="Bond Number", required=True)
     shipping_line = fields.Many2one("shipping.line", string="Shipping Line", required=True)
-
+    trip_ids=fields.One2many("trip.management.vehicle","file_ids",string="Trip")
 
     def create_invoice(self):
         inv_lines = []
@@ -252,5 +247,4 @@ class ContainerInterchangeForm(models.Model):
     expected_return_date = fields.Date(string="Expected Return Date", default=datetime.now(), tracking=True)
     actual_return_date = fields.Date(string="Actual Return Date", default=datetime.now(), tracking=True)
     interchange_rcvd_date = fields.Date(string="Interchange Rcvd Date", default=datetime.now(), tracking=True)
-
     

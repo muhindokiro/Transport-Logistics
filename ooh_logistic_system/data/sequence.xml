@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
         <record id="file_system_sequence" model="ir.sequence">
             <field name="name">File System Sequence</field>
@@ -11,7 +10,15 @@
             <field name="implementation">no_gap</field>
             <field name="company_id" eval="False" />
         </record>
-
+        <record id="trip_management_vehicle_sequence" model="ir.sequence">
+            <field name="name">Trip Sequence</field>
+            <field name="code">trip.management.vehicle</field>
+            <field name="prefix">TR/</field>
+            <field name="suffix">/%(y)s</field>
+            <field name="padding">4</field>
+            <field name="implementation">no_gap</field>
+            <field name="company_id" eval="False" />
+        </record>
         <record id="bond_number_sequence" model="ir.sequence">
             <field name="name">Bond Number Sequence</field>
             <field name="code">bond.number</field>

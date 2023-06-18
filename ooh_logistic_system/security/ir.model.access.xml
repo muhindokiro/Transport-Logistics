@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="trip_management_vehicle_access_rights" model="ir.model.access">
+        <field name="name">custom_trip_management_vehicle</field>
+        <field name="model_id" ref="model_trip_management_vehicle" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <!-- <record id="activity_activity_access_rights" model="ir.model.access">
+        <field name="name">custom_activity_activity</field>
+        <field name="model_id" ref="model_activity_activity" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+    <record id="method_application_access_rights" model="ir.model.access">
+        <field name="name">custom_method_application</field>
+        <field name="model_id" ref="model_method_application" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="0" />
+    </record> -->
+</odoo>

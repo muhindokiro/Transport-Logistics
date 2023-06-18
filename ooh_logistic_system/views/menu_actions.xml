@@ -6,7 +6,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    CREATE A NEW FILE FOR A NEW OPPORTUNITY
+                CREATE A NEW FILE FOR A NEW OPPORTUNITY
             </p>
         </field>
     </record>
@@ -16,7 +16,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    UPLOAD A DOCUMENT
+                UPLOAD A DOCUMENT
             </p>
         </field>
     </record>
@@ -26,7 +26,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    CREATE A NEW FILE FOR A NEW OPPORTUNITY
+                CREATE A NEW FILE FOR A NEW OPPORTUNITY
             </p>
         </field>
     </record>
@@ -37,7 +37,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    CREATE A BOND
+                CREATE A BOND
             </p>
         </field>
     </record>
@@ -48,7 +48,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    CREATE A CONTAINER
+                CREATE A CONTAINER
             </p>
         </field>
     </record>
@@ -59,7 +59,18 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                    CREATE A SHIPPING LINE
+                CREATE A SHIPPING LINE
+            </p>
+        </field>
+    </record>
+
+    <record id="action_trip_management_view" model="ir.actions.act_window">
+        <field name="name">Trip Management</field>
+        <field name="res_model">trip.management.vehicle</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                CREATE A TRIP LINE
             </p>
         </field>
     </record>
