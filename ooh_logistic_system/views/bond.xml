@@ -10,11 +10,11 @@
                 <tree string="Bond Number">
 
                     <field name="name" />
-                    <field name="bond_amount"/>
+                    <field name="bond_amount" />
+                    <field name="bond_amount" />
                     <field name="purchase_date" />
-                    <field name="bond_duration"/>
-                    <field name="expiry_date"/>
-
+                    <field name="bond_duration" />
+                    <field name="expiry_date" />
                 </tree>
             </field>
         </record>
@@ -26,32 +26,20 @@
             <field name="arch" type="xml">
                 <form string="Bond Number">
                     <header>
-
-                        <button name="submit_to_manager" string="Submit Bond" states="draft" class="btn-primary" type="object" />
-                        <button name="action_confirm" string="Activate Bond" states="active" class="btn-primary" type="object" />
-                        <button name="action_cancel" string="Cancel Bond" states="expired" class="btn-primary" type="object" />
-
-                        <field name="state" widget="statusbar" readonly="1" options="{'clickable': False}" />
-
+                        <field name="state" widget="statusbar" />
+                        <button name="bond_idsbond_ids" string="Validate Bond" states="draft"
+                            class="btn-primary" type="object" />
                     </header>
-
                     <sheet>
-
                         <group>
-
                             <group>
-                                <field name="name"/>
-                                <field name="bond_amount"/>
+                                <field name="name" />
+                                <field name="bond_amount" />
+                                <field name="purchase_date" />
+                                <field name="expiry_date" />
+                                <field name="bond_duration" />
                             </group>
-
-                            <group>
-                                <field name="purchase_date"/>
-                                <field name="bond_duration"/>
-                                <field name="expiry_date"/>
-                            </group>
-
                         </group>
-
                     </sheet>
 
                     <div class="oe_chatter">
