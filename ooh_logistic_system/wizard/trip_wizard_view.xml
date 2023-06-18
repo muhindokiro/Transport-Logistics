@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="open_my_wizard_action" model="ir.actions.act_window">
+            <field name="name">Form Wizard</field>
+            <field name="res_model">trip.management.vehicle</field>
+            <field name="view_id" ref="view_trip_transient_custom_form" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
         <record id="view_trip_transient_custom_form" model="ir.ui.view">
             <field name="name">trip.management.vehicle.form</field>
             <field name="model">trip.management.vehicle</field>
@@ -8,40 +15,99 @@
             <field name="arch" type="xml">
                 <form string="Transport Information">
                     <sheet>
+                        <h1>
+                            <field name="name" />
+                            <field name="ref" />
+                        </h1>
                         <group>
                             <group>
                                 <field name="type" />
+                                <field name="date" />
                                 <field name="external_truck_number"
                                     attrs="{'invisible': [('type','=','internal')]}" />
                                 <field name="external_driver_name"
                                     attrs="{'invisible': [('type','=','internal')]}" />
+
+                                <field name="internal_turnboy"
+                                    attrs="{'invisible': [('type','=','external')]}" />
+                                <field name="external_turnboy_mobile"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                            </group>
+                            <group>
+                                <field name="partner_id" />
+                                <field name="file_ids" />
+                                <field name="internal_driver"
+                                    attrs="{'invisible': [('type','=','external')]}" />
+                                <field name="internal_truck"
+                                    attrs="{'invisible': [('type','=','external')]}" />
                                 <field name="external_driver_mobile"
                                     attrs="{'invisible': [('type','=','internal')]}" />
                                 <field name="external_turnboy_name"
                                     attrs="{'invisible': [('type','=','internal')]}" />
-                                <field name="external_turnboy_mobile"
-                                    attrs="{'invisible': [('type','=','internal')]}" />
                             </group>
-
                         </group>
                     </sheet>
-                    <footer>
-                        <button string="Create Transporter" type="object"
-                            name="create_transporter"
-                            class="btn-primary" />
-                        <!-- <button string="Cancel" type="object" name="cancel"
-                            class="btn-secondary" /> -->
-                    </footer>
                 </form>
             </field>
         </record>
 
-        <record id="open_my_wizard_action" model="ir.actions.act_window">
-            <field name="name">Form Wizard</field>
-            <field name="res_model">trip.management.vehicle</field>
-            <field name="view_id" ref="view_trip_transient_custom_form" />
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
+        <record id="view_trip_management_vehicle_kanban" model="ir.ui.view">
+            <field name="name">trip.management.vehicle.kanban</field>
+            <field name="model">trip.management.vehicle</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="name" />
+                    <field name="external_driver_name" />
+                    <field name="external_driver_mobile" />
+                    <field name="external_truck_number" />
+                    <field name="ref" />
+                    <field name="partner_id" />
+                    <field name="date" />
+                    <field name="state" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong class="o_kanban_record_title">
+                                            <span>
+                                                <t t-esc="record.name.value" />
+                                            </span>
+                                        </strong>
+                                        <strong class="o_kanban_record_subtitle float-end">
+                                            <span class="text-end">
+                                                <t t-esc="record.partner_id.value" />
+                                            </span>
+                                        </strong>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt8">
+                                    <div class="col-6 text-muted">
+                                        <span>
+                                            <t t-esc="record.date.value" />
+                                        </span>
+                                    </div>
+                                    <div class="col-6 text-muted">
+                                        <span>
+                                            <field name="state" widget="label_selection"
+                                                options="{'classes': 
+                                            {
+                                            'draft': 'danger', 
+                                            'External': 'warning', 
+                                            'Cancelled':'danger',
+                                            'Finished':'success'
+                                            }}" />
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
         </record>
     </data>
 </odoo>
