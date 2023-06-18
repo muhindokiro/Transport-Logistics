@@ -46,11 +46,13 @@ class VehicleTrip(models.Model):
 
     # External Transport Details
     external_driver = fields.Char(string='Driver Name')
+    external_driver_mobile = fields.Char(string='Driver Name')
     external_truck = fields.Char(string='Vehicle Plate No.')
     external_turnboy = fields.Char(string='Turnboy Name')
+    external_turnboy_mobile = fields.Char(string='Turnboy Name')
 
     # Internal Transport Details
-    internal_driver = fields.Many2one("res.partner", string='Driver Name')
+    internal_driver = fields.Many2one("hr.employee", string='Driver Name')
     internal_truck = fields.Many2one("fleet.vehicle", string='Vehicle Plate No.')
     internal_turnboy = fields.Many2one("res.partner", string='Turnboy Name')
     company_id=fields.Many2one('res.company',string="Company",readonly=True)

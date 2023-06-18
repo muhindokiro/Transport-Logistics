@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_trip_transient_custom_form" model="ir.ui.view">
+            <field name="name">trip.management.vehicle.form</field>
+            <field name="model">trip.management.vehicle</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Transport Information">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type" />
+                                <field name="external_truck_number"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_driver_name"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_driver_mobile"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_turnboy_name"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                                <field name="external_turnboy_mobile"
+                                    attrs="{'invisible': [('type','=','internal')]}" />
+                            </group>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Create Transporter" type="object"
+                            name="create_transporter"
+                            class="btn-primary" />
+                        <!-- <button string="Cancel" type="object" name="cancel"
+                            class="btn-secondary" /> -->
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_my_wizard_action" model="ir.actions.act_window">
+            <field name="name">Form Wizard</field>
+            <field name="res_model">trip.management.vehicle</field>
+            <field name="view_id" ref="view_trip_transient_custom_form" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
