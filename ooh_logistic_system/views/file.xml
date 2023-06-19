@@ -163,6 +163,7 @@
                                     <field name="interchange_rcvd_date" />
                                 </tree>
                             </field>
+                            <div class="oe_clear" />
                         </page>
 
                     </notebook>
@@ -183,6 +184,7 @@
     <record id="add_product_form_view" model="ir.ui.view">
         <field name="name">open.file.line.form</field>
         <field name="model">open.file.line</field>
+        <field name="priority" eval="1" />
         <field name="arch" type="xml">
             <form>
                 <sheet>

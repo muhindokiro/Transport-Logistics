@@ -1,12 +1,12 @@
 from odoo import models, fields, api, _
-from datetime import datetime
+from datetime import datetime, date
 import logging
 from random import randint
 
 _logger = logging.getLogger(__name__)
 
 
-# today = datetime.date.today()
+today = date.today()
 class OpenFile(models.Model):
     _name = "open.file"
     _description = "The file information and documents management"
@@ -97,7 +97,6 @@ class OpenFile(models.Model):
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
     rela_docs = fields.One2many("open.file.document", "assoc_file")
     file_lines = fields.One2many("open.file.line", "assoc_file_line")
-    # cont_details = fields.One2many("container.details.line", "container_file")
     cont_interchange = fields.One2many("container.interchange.line", "interchange_file")
     invoice_payment_term_id = fields.Many2one("account.payment.term", required=True)
     account_total = fields.Float(
@@ -146,8 +145,6 @@ class OpenFile(models.Model):
                             "product_id": x.product_id,
                             "name": x.name,
                             "account_id": x.account_id.id,
-                            "quantity": 1,
-                            "price_unit": x.amount,
                         },
                     )
                 )
@@ -188,8 +185,8 @@ class OpenFileLine(models.Model):
 
 
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
-    container_id = fields.Many2one(string="Container Number", tracking=True)
-    shipping_line = fields.Char(string='Shipping Line',required=True, tracking=True)
+    container_id = fields.Char(string="Container Number", tracking=True)
+    shipping_line = fields.Char(string='Shipping Line', required=True, tracking=True)
     transporter = fields.Many2one(
         "res.partner",
         string="Transporter"
@@ -208,7 +205,7 @@ class ContainerInterchangeForm(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     interchange_file = fields.Many2one("open.file")
-    container_no = fields.Many2one(string="Container Number", tracking=True)
+    container_no = fields.Char(string="Container Number", tracking=True)
     interchange_no = fields.Char(string="Interchange No.", tracking=True)
     interchange_depot = fields.Char(string="Interchange Depot", tracking=True)
     guarantee_by = fields.Many2one(

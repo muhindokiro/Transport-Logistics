@@ -5,7 +5,7 @@
     'description': """This module will add a record to store student details""",
     'author': 'Hussein Kadweka',
     'category': 'Tools',
-    'depends': ['base', 'contacts', 'account', 'sale', 'stock'],
+    'depends': ['base', 'contacts', 'account', 'sale_management', 'stock'],
     'license': 'AGPL-3',
     'data': [
         'security/ir.model.access.xml',
@@ -17,8 +17,8 @@
         'views/file.xml',
         'views/bond.xml',
         'views/shipping_line.xml',
-        'views/documents.xml',
-        'wizard/trip_wizard_view.xml'
+        'views/documents.xml'
+        # 'wizard/trip_wizard_view.xml'
     ],
     'demo': [],
     'assets': {
