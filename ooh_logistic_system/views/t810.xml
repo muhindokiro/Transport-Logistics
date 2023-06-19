@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_logistic_entry_tree" model="ir.ui.view">
+            <field name="name">logistic.entry.tree</field>
+            <field name="model">logistic.entry</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Logistic Entry">
+
+                    <field name="t810_no" />
+                    <field name="entry_date" />
+                    <field name="extension_date" />
+                    <field name="bond_id" />
+                    <field name="bond_cost" />
+                    <field name="currency_id" />
+                    <field name="exchange_rate" />
+                    <field name="t812_no" />
+                    <field name="passed_date" />
+                    <field name="returned_date" />
+                    <field name="cancellation_date" />
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_logistic_entry_form" model="ir.ui.view">
+            <field name="name">logistic.entry.form</field>
+            <field name="model">logistic.entry</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Logistic Entry">
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="t810_no" />
+                                <field name="t812_no" />
+                                <field name="bond_id" />
+                                <field name="bond_cost" />
+                                <field name="currency_id" />
+                                <field name="exchange_rate" />
+
+                            </group>
+                            <group>
+                                <field name="entry_date" />
+                                <field name="extension_date" />
+                                <field name="passed_date" />
+                                <field name="returned_date" />
+                                <field name="cancellation_date" />
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
