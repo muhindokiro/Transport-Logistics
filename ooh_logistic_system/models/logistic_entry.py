@@ -29,9 +29,14 @@ class LogisticEntry(models.Model):
         ('KSH', 'KSH'),
         ('USD', 'USD')], string='Currency', tracking=True)
     exchange_rate = fields.Integer(string='Exchange Rate',required=True)
-    bond_cost = fields.Char(string='Bond Amount',required=True)
-    # bond_cost = fields.Many2one('bond.number', string="Bond Amount",
-    #                           readonly=True, related='bond_id.bond_amount', tracking=True)
+    bond_cost = fields.Float(string="Bond Amount", readonly=True)
     cancellation_date = fields.Date(string="T810 Cancellation Date", tracking=True)
+    
+    @api.onchange('bond_id')
+    def _onchange_bond_id(self):
+        if self.bond_id:
+            self.bond_cost = self.bond_id.bond_amount
+        else:
+            self.bond_cost = 0.0
 
 
