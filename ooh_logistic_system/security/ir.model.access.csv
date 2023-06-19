@@ -6,6 +6,7 @@ ooh_logistic_system.access_bond_number,access_bond_number,ooh_logistic_system.mo
 ooh_logistic_system.access_shipping_line,access_shipping_line,ooh_logistic_system.model_shipping_line,base.group_user,1,1,1,0
 ooh_logistic_system.access_container_interchange_line,access_container_interchange_line,ooh_logistic_system.model_container_interchange_line,base.group_user,1,1,1,0
 ooh_logistic_system.access_trip_management_vehicle,access_trip_management_vehicle,ooh_logistic_system.model_trip_management_vehicle,base.group_user,1,1,1,0
+ooh_logistic_system.access_logistic_entry,access_logistic_entry,ooh_logistic_system.model_logistic_entry,base.group_user,1,1,1,0
 
 
 
