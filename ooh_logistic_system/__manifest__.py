@@ -17,7 +17,8 @@
         'views/file.xml',
         'views/bond.xml',
         'views/shipping_line.xml',
-        'views/documents.xml'
+        'views/documents.xml',
+        'views/t810.xml'
         # 'wizard/trip_wizard_view.xml'
     ],
     'demo': [],
