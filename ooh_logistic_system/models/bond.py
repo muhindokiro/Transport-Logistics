@@ -18,8 +18,15 @@ class BondNumber(models.Model):
     _description = "Company Bond Configuration"
     _inherit = ["mail.thread", 'mail.activity.mixin']
     
-   
-    name = fields.Char(string='Bond Number',required=True)
+  
+    bond_no = fields.Char(string='Bond Number',required=True)
+    name = fields.Char(
+        string="Bond Ref",
+        required=True,
+        copy=False,
+        readonly=True,
+        default=lambda self: _("New"),
+    )
     bond_amount = fields.Integer(string='Bond Amount',required=True, tracking=True)
     bond_duration = fields.Char(string='Bond Duration',required=True, tracking=True,readonly=True, default='1 year')
     purchase_date = fields.Date(string="Purchase Date", tracking=True)
@@ -33,6 +40,14 @@ class BondNumber(models.Model):
         default="draft",
         tracking=True,
     )
+    
+    @api.model
+    def create(self, vals):
+        if vals.get("name", _("New")) == _("New"):
+            vals["name"] = self.env["ir.sequence"].next_by_code("bond.number") or _("New")
+        res = super(BondNumber, self).create(vals)
+        return res
+    
     def bond_idsbond_ids(self):
         bond_ids=self.env["bond.number"].sudo().search([("state","in",['draft','valid','expired']),("name",'=',self.name)])
         if bond_ids:
