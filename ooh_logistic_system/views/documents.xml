@@ -6,10 +6,10 @@
         <field name="model">open.file.document</field>
         <field name="arch" type="xml">
             <tree string="Documents Center">
-                <field name="date"/>
-                <field name="name"/>
-                <field name="name"/>
-                <field name="document"/>
+                <field name="product_item"/>
+                <field name="amount"/>
+                <!-- <field name="name"/> -->
+                <!-- <field name="document"/> -->
             </tree>
         </field>
     </record>
@@ -18,17 +18,17 @@
         <field name="name">open.file.document.form</field>
         <field name="model">open.file.document</field>
         <field name="arch" type="xml">
-               <form>
+            <form>
                 <sheet>
                     <group>
-                        <field name="date"/>
-                        <field name="name"/>
+                        <field name="product_item"/>
+                        <field name="amount"/>
                         <field name="file_ref"/>
                         <field name="assoc_file"/>
-                        <field name="document"/>
+                        <!-- <field name="document"/> -->
                     </group>
                 </sheet>
-               </form>
+            </form>
         </field>
     </record>
 </odoo>

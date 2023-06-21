@@ -163,19 +163,18 @@ class AccountMove(models.Model):
 
 class OpenFileDocument(models.Model):
     _name = "open.file.document"
-    _description = "The file documents for easy tracking and management"
+    _description = "Chargeable items"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    date = fields.Date(
-        string="Uploaded On", default=datetime.now(), readonly=True, tracking=True
-    )
-    name = fields.Char(string="Document Tittle", tracking=True)
-    document = fields.Binary(string="Document")
+
     assoc_file = fields.Many2one("open.file")
     file_ref = fields.Char(
         related="assoc_file.name", readonly=True, string="Related File", tracking=True
     )
-    company_id = fields.Many2one("res.company", string="Company", readonly=True)
+    product_item = fields.Many2one("product.product", string="Product", tracking=True)
+    # amount = fields.Float(string="Amount", readonly=True)
+    amount = fields.Char(string="Amount", readonly=True)
+
 
 
 class OpenFileLine(models.Model):

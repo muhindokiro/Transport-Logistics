@@ -128,9 +128,9 @@
                         <page string="Chargeable Items">
                             <field name="rela_docs">
                                 <tree string="Chargeable Items" editable="bottom">
-                                    <field name="date" />
-                                    <field name="name" />
-                                    <field name="document" />
+                                    <field name="amount" />
+                                    <field name="product_item" />
+                                    <!-- <field name="document" /> -->
                                 </tree>
                             </field>
                             <div class="oe_clear" />

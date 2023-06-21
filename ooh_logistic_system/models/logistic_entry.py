@@ -6,9 +6,9 @@ from datetime import date, datetime, timedelta
 from random import randint
 from odoo.http import request
 from odoo.exceptions import UserError
+import logging
 
 today = date.today()
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -25,9 +25,11 @@ class LogisticEntry(models.Model):
     passed_date = fields.Date(string="T812 Passed Date", tracking=True)
     returned_date = fields.Date(string="T812 Returned Date", tracking=True)
     bond_id = fields.Many2one("bond.number",string="Bond Number", tracking=True, store=True)
-    currency_id = fields.Selection([
-        ('KSH', 'KSH'),
-        ('USD', 'USD')], string='Currency', tracking=True)
+    currency_id = fields.Many2one("res.currency",string="Currency", tracking=True, store=True, default=lambda self: self.env.company.currency_id)
+    currency_value = fields.Monetary(string='Amount', currency_field='currency_id')
+    # currency = fields.Selection([
+    #     ('KSH', 'KSH'),
+    #    ('USD', 'USD')], string='Currency', tracking=True)
     exchange_rate = fields.Integer(string='Exchange Rate',required=True)
     bond_cost = fields.Float(string="Bond Amount", readonly=True)
     cancellation_date = fields.Date(string="T810 Cancellation Date", tracking=True)
