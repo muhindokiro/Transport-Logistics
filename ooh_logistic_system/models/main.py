@@ -115,7 +115,7 @@ class OpenFile(models.Model):
     vessel = fields.Char(string="Vessel", tracking=True)
     manifest_no = fields.Char(string="Manifest No.", tracking=True)
     remarks = fields.Char(string="Remarks", tracking=True)
-    bond_number = fields.Many2one("bond.number", string="Bond Number", required=True)
+    bond_number = fields.Many2one("bond.number", string="Bond Number", required=True,domain=[("state","=","valid")])
     shipping_line = fields.Many2one("shipping.line", string="Shipping Line", required=True)
     trip_ids=fields.One2many("trip.management.vehicle","file_ids",string="Trip")
 
