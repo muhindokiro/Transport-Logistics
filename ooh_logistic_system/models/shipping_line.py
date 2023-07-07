@@ -20,13 +20,11 @@ class ShippingLine(models.Model):
     name = fields.Char(string='Shipping Line',required=True, tracking=True)
     address = fields.Char(string='Address',required=True, tracking=True)
     tel = fields.Char(string='Telephone',required=True, tracking=True, size=15)
-    contact_person = fields.Char(string='Person in Charge',required=True, tracking=True)
-    
-    currency_id = fields.Selection([
-        ('KSH', 'KSH'),
-        ('USD', 'USD')], string='Currency', tracking=True)
-    drc = fields.Char(string='D.R.C Charges',required=True, tracking=True)
-    east_africa = fields.Char(string='E.A Charges',required=True, tracking=True)
+    contact_person = fields.Many2one("res.partner", string='Person in Charge',required=True, tracking=True)
+   
+    currency_id = fields.Many2one("res.currency",string="Currency", tracking=True, store=True, default=lambda self: self.env.company.currency_id)
+    drc = fields.Many2one("product.pricelist", string='D.R.C Charges',required=True, tracking=True)
+    east_africa = fields.Many2one("product.pricelist", string='E.A Charges',required=True, tracking=True)
 
 
 

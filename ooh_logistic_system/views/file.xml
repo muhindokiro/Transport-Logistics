@@ -112,15 +112,15 @@
                     </group>
                     <notebook>
                         <page string="Container Details">
-                            <field name="file_lines" context="{'form_view_ref' : 'ooh_logistic_system.add_product_form_view'}">
-                                <tree string="Container Details" editable="bottom">
+                            <field name="file_lines" nolabel="1" context="{'form_view_ref' : 'ooh_logistic_system.add_product_form_view'}">
+                                <tree string="Container Details">
                                     <field name="product_id" />
                                     <field name="container_id" />
                                     <field name="transporter" />
                                     <field name="shipping_line" />
-                                    <field name="loading_date" />
+                                    <field name="loading_date" optional="hide"/>
                                     <field name="account_id" />
-                                    <field name="return_date" />
+                                    <field name="return_date" optional="hide"/>
 
                                 </tree>
                             </field>
@@ -149,18 +149,18 @@
                             <div class="oe_clear" />
                         </page>
                         <page string="Container Interchange">
-                            <field name="cont_interchange" context="{'form_view_ref' : 'ooh_logistic_system.container_interchange_form_view'}">
-                                <tree string="Container Interchange" editable="bottom">
+                            <field name="cont_interchange" nolabel="1" context="{'form_view_ref' : 'ooh_logistic_system.container_interchange_form_view'}">
+                                <tree string="Container Interchange">
                                     <field name="container_no" />
                                     <field name="file_ref" />
-                                    <field name="cont_arrival_date" />
-                                    <field name="cont_loading_date" />
+                                    <field name="cont_arrival_date" optional="hide"/>
+                                    <field name="cont_loading_date" optional="hide"/>
                                     <field name="interchange_no" />
                                     <field name="interchange_depot" />
                                     <field name="guarantee_by" />
-                                    <field name="expected_return_date" />
-                                    <field name="actual_return_date" />
-                                    <field name="interchange_rcvd_date" />
+                                    <field name="expected_return_date" optional="hide"/>
+                                    <field name="actual_return_date" optional="hide"/>
+                                    <field name="interchange_rcvd_date" optional="hide"/>
                                 </tree>
                             </field>
                             <div class="oe_clear" />
@@ -192,9 +192,15 @@
                         <group>
                             <field name="product_id" />
                             <field name="container_id" />
-                            <field name="account_id" />
+                            <field name="shipping_line" />
                             <field name="transporter" />
                         </group>
+                        <group>
+                            <field name="loading_date" />
+                            <field name="account_id" />
+                            <field name="return_date" />
+                        </group>
+
                     </group>
                 </sheet>
             </form>

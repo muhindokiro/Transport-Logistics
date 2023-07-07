@@ -27,9 +27,6 @@ class LogisticEntry(models.Model):
     bond_id = fields.Many2one("bond.number",string="Bond Number", tracking=True, store=True)
     currency_id = fields.Many2one("res.currency",string="Currency", tracking=True, store=True, default=lambda self: self.env.company.currency_id)
     currency_value = fields.Monetary(string='Amount', currency_field='currency_id')
-    # currency = fields.Selection([
-    #     ('KSH', 'KSH'),
-    #    ('USD', 'USD')], string='Currency', tracking=True)
     exchange_rate = fields.Integer(string='Exchange Rate',required=True)
     bond_cost = fields.Float(string="Bond Amount", readonly=True)
     cancellation_date = fields.Date(string="T810 Cancellation Date", tracking=True)
