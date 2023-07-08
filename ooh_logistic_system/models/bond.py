@@ -90,13 +90,8 @@ class BondNumber(models.Model):
         if bond_ids.search([("name",'=',self.bond_no)]):
           raise UserError(_("Bond Number should be unique"))
         if not bond_ids:
-            for x in bond_ids.search([("state",'=',"valid")]):
-                if x:
-                    raise UserError(_("You Alredy have a valid Bond `${self.name}`"))
-                else:
-                    self._prepare_entry_values()
-                    self.write({"state":"valid"})
-
+            self._prepare_entry_values()
+            self.write({"state":"valid"})
     @api.depends('purchase_date')
     def _compute_expiry_date(self):
         for record in self:
