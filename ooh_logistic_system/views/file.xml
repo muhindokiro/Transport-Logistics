@@ -117,7 +117,6 @@
                                     <field name="product_id" />
                                     <field name="container_id" />
                                     <field name="transporter" />
-                                    <field name="shipping_line" />
                                     <field name="loading_date" optional="hide"/>
                                     <field name="account_id" />
                                     <field name="return_date" optional="hide"/>
@@ -192,7 +191,6 @@
                         <group>
                             <field name="product_id" />
                             <field name="container_id" />
-                            <field name="shipping_line" />
                             <field name="transporter" />
                         </group>
                         <group>

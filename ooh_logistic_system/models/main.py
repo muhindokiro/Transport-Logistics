@@ -185,7 +185,6 @@ class OpenFileLine(models.Model):
 
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
     container_id = fields.Char(string="Container Number", tracking=True)
-    shipping_line = fields.Char(string='Shipping Line', required=True, tracking=True)
     transporter = fields.Many2one(
         "res.partner",
         string="Transporter"
