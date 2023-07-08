@@ -6,7 +6,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-               CREATE A NEW FILE FOR A NEW OPPORTUNITY
+                CREATE A NEW FILE FOR A NEW OPPORTUNITY
             </p>
         </field>
     </record>
@@ -70,6 +70,17 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 CREATE A TRIP LINE
+            </p>
+        </field>
+    </record>
+
+    <record id="action_container_interchange_view" model="ir.actions.act_window">
+        <field name="name">Container Interchange Management</field>
+        <field name="res_model">container.interchange.line</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                CREATE A CONTAINER INTERCHANGE
             </p>
         </field>
     </record>

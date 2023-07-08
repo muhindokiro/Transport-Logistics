@@ -16,12 +16,12 @@ class TripManager(models.Model):
     _name = "trip.management.vehicle"
     _description = "Transporter Management"
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('vehicle.trip') or _('New')
-        res = super(TripManager, self).create(vals)
-        return res
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', _('New')) == _('New'):
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('vehicle.trip') or _('New')
+    #     res = super(TripManager, self).create(vals)
+    #     return res
     type = fields.Selection([
         ('internal', 'Internal'),
         ('external', 'External')], string='Transport Type', tracking=True)
